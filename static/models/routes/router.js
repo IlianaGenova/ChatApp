@@ -1,12 +1,10 @@
 var express = require('express');
 var router = express.Router();
-var User = require('../models/user');
+var User = require('../user.js');
 
 router.get('/register', function (req, res, next) {
-    return res.sendFile(path.join(__dirname + '../templates/register.html'));
+    return res.sendFile(path.join(__dirname + './templates/register.html'));
 });
-
-
 
 router.post('/register', function (req, res, next) {
     if (req.body.email &&
@@ -29,7 +27,7 @@ router.post('/register', function (req, res, next) {
                 return res.redirect('/profile');
             }
         });
-    
+
     }
     else {
         var err = new Error('All fields required.');
@@ -39,3 +37,4 @@ router.post('/register', function (req, res, next) {
 })
 
 module.exports = router;
+//var exports = module.exports = {};

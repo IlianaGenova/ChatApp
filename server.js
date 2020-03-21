@@ -4,7 +4,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true });
 
 const io = require('socket.io')(3000)
 //const fs = require('fs')
-var http = require('http');
+//var http = require('http');
 
 const express = require("express");
 const path = require("path");
@@ -18,17 +18,20 @@ app.get('/', (req, res) => {
   res.render('index');
 });
 server = app.listen(8080);
+
+io.on('connection', socket => {
+  console.log("new user pls")
+  socket.emit('message', 'Hello World')
+})
+
+
+
 /*
 client.connect(err => {
   const collection = client.db("test").collection("devices");
   client.close();
 });
 */
-io.on('connection', socket => {
-  console.log("new user pls")
-  socket.emit('message', 'Hello World')
-})
-
 /*
 http.createServer(function (req, res) {
     res.writeHead(200, {'Content-Type': 'text/html'});

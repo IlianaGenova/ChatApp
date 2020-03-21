@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="../static/style.css">
+  <title>Register</title>
+</head>
+<body>
+    <div class="page">
+        <div class="form">
+            <h1>Register</h1>
+            <form action="/register-check" method="post" class="register">
+                <input type="email" name="email" placeholder="Email"/>
+                </br>
+                <input name="password" type="password" placeholder="Password"/>
+                </br>
+                <input name="name" placeholder="Name"/>
+                </br>
+                <input name="adress" placeholder="Adress"/>
+                </br>
+                <input name="phone" type="tel" placeholder="Phone Number"/>
+                </br>
+                <input type="submit"></input>
+            </form>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="chat.js"></script>
+</body>
+</html>

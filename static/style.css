@@ -1,19 +1,31 @@
+:root {
+  --main-bg-color: AliceBlue;
+  --form-color: rgb(101, 157, 189, 0.6);
+  --supporting-color: rgb(101, 157, 200, 0.9);
+  --onclick-color: rgb(77, 141, 179);
+  --focus-color: rgb(69, 127, 161);
+}
+
 body{
     font-style: Verdana;
     display: flexbox;
-    background-color: AliceBlue;
+    background-color: var(--main-bg-color);
     justify-content: center;
-    width: 100%;
 }
+
 .form {
-  background-color:#659dbd;
-  border-radius: 5%;
+  background-color:var(--form-color);
+  border-radius: 20px;
   margin: 0 auto;
+  margin-top: 30px;
   padding: 100px;
   width: 100%;
   max-width: 300px;
   text-align: center;
-
+  color: white;
+  font-family: sans-serif;
+  font-size: 30px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.35), 0 6px 20px 0 rgba(0, 0, 0, 0.2);
 }
 
 input, select{
@@ -24,28 +36,37 @@ select, input{
     width: 66.6%;
     margin: 10px auto 10px;
     padding: 5px;
-    border: 1px solid #ccc;
+    border: 2px solid var(--supporting-color);
     border-radius: 50px;
     resize: vertical;
 }
-  
-select:focus, input{
-    border: 2px solid #444;
+
+select:focus, input:focus{
+    border: 2px solid var(--focus-color);
 }
-  
-  
+
+input:focus{\
+    color: var(--form-color);
+}
+
+
 input[type=submit] {
-    background-color: blue;
+    background-color: var(--supporting-color);
     color: black;
-    margin-top: 30px;
+    margin-top: 50px;
+    margin-bottom: 0px;
     padding: 12px 20px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     resize: vertical;
+    color: white;
+    font-family: sans-serif;
+    font-size: 20px;
 }
+
 input[type=submit]:hover{
-    background-color: darkblue;
+    background-color: var(--onclick-color);
 }
 .button{
     margin-top: 30px;
@@ -69,3 +90,8 @@ a:hover {
       flex-direction: column;
     }
   }
+
+h1 {
+  margin-top: 30px;
+  margin-bottom: 40px;
+}

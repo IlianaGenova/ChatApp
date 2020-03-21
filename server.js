@@ -11,38 +11,50 @@ const path = require("path");
 const app = express();
 //const port = process.env.PORT || "8080";
 
-const mongoose = require("mongoose");
-const UserSchema = new mongoose.Schema({
-  email: {
-    type: String,
-    unique: true,
-    required: true,
-    trim: true
-  },
-  username: {
-    type: String,
-    unique: true,
-    required: true,
-    trim: true
-  },
-  password: {
-    type: String,
-    unique: true,
-    required: true,
-  },
-  adress: {
-    type: String,
-    required: true,
-    trim: true
-  },
-  phone: {
-    type: Number,
-    unique: true,
-    required: true
-  }
+
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
+
+//connect to MongoDB
+mongoose.connect('mongodb://localhost/testForAuth');
+var db = mongoose.connection;
+
+//handle mongo error
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function () {
+  // we're connected!
 });
-const User = mongoose.model('User', UserSchema);
-module.exports = User;
+
+//use sessions for tracking logins
+app.use(session({
+  secret: 'work hard',
+  resave: true,
+  saveUninitialized: false,
+  store: new MongoStore({
+    mongooseConnection: db
+  })
+}));
+
+// parse incoming requests
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+
+// serve static files from template
+app.use(express.static(__dirname + '/templates'));
+
+// include routes
+const routes = require('./routes/router.js');
+app.use('/', routes);
+
+// catch 404 and forward to error handler
+app.use(function (req, res, next) {
+  var err = new Error('File Not Found');
+  err.status = 404;
+  next(err);
+});
 
 app.set('view engine', 'ejs');
 app.use(express.static('public'));

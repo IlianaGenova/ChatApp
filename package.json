@@ -4,7 +4,10 @@
   "description": "",
   "main": "main.js",
   "dependencies": {
+    "bcrypt": "^4.0.1",
+    "connect-mongo": "^3.2.0",
     "express-session": "^1.17.0",
+    "mongo-connect": "0.0.6",
     "mongodb": "^3.5.5",
     "mongoose": "^5.9.5",
     "socket.io": "^2.3.0"

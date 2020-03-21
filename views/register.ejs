@@ -9,12 +9,12 @@
     <div class="page">
         <div class="form">
             <h1>Register</h1>
-            <form action="/register-check" method="post" class="register">
+            <form id='register' action="/register" method="post" class="register" onsubmit="submitForm();">
                 <input type="email" name="email" placeholder="Email"/>
                 </br>
                 <input name="password" type="password" placeholder="Password"/>
                 </br>
-                <input name="name" placeholder="Name"/>
+                <input name="username" placeholder="Username"/>
                 </br>
                 <input name="adress" placeholder="Adress"/>
                 </br>
@@ -24,6 +24,12 @@
             </form>
         </div>
     </div>
+    <script type="text/javascript">
+        var form = document.getElementById('register')
+        function submitForm(){
+            form.submit()
+        }
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script src="chat.js"></script>

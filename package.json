@@ -4,7 +4,9 @@
   "description": "",
   "main": "main.js",
   "dependencies": {
+    "express-session": "^1.17.0",
     "mongodb": "^3.5.5",
+    "mongoose": "^5.9.5",
     "socket.io": "^2.3.0"
   },
   "devDependencies": {

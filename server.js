@@ -11,11 +11,50 @@ const path = require("path");
 const app = express();
 //const port = process.env.PORT || "8080";
 
+const mongoose = require("mongoose");
+const UserSchema = new mongoose.Schema({
+  email: {
+    type: String,
+    unique: true,
+    required: true,
+    trim: true
+  },
+  username: {
+    type: String,
+    unique: true,
+    required: true,
+    trim: true
+  },
+  password: {
+    type: String,
+    unique: true,
+    required: true,
+  },
+  adress: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  phone: {
+    type: Number,
+    unique: true,
+    required: true
+  }
+});
+const User = mongoose.model('User', UserSchema);
+module.exports = User;
+
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.get('/', (req, res) => {
   //res.send('Hello world')
   res.render('index');
+});
+app.get('/login', (req, res) => {
+  res.render('login');
+});
+app.get('/register', (req, res) => {
+  res.render('register');
 });
 server = app.listen(8080);
 

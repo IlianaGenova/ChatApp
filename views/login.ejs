@@ -9,15 +9,21 @@
 </head>
 <body>
   <div class="page">
-    <div class="form">
+    <form id="login" class="form" action="/login" method="post" onsubmit="submitForm();">
       <h1>Login</h1>
-      <input type="email" name="email" placeholder="Email"/>
+      <input type="email" name="logemail" placeholder="Email"/>
       </br>
-      <input name="password" type="password" placeholder="Password"/>
+      <input name="logpassword" type="password" placeholder="Password"/>
       </br>
       <input type="submit">
-    </div>
+    </form>
   </div>
+  <script type="text/javascript">
+      var form = document.getElementById('login')
+      function submitForm(){
+          form.submit()
+      }
+  </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
   <script src="http://code.jquery.com/jquery-latest.min.js"></script>
   <script type="text/javascript" src="/scripts/chat.js"></script>

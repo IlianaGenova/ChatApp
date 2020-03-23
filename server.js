@@ -11,7 +11,7 @@ const path = require("path");
 const app = express();
 //const port = process.env.PORT || "8080";
 
-
+var User = require('./static/models/user.js');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const session = require('express-session');
@@ -52,7 +52,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "/static")));
 
 //include Routes
-const routes = require('./static/models/routes/router.js');
+//const routes = require('./static/models/routes/router.js');
 //app.use('/', routes);
 
 // catch 404 and forward to error handler
@@ -75,7 +75,44 @@ app.get('/login', (req, res) => {
 app.get('/register', (req, res) => {
   res.render('register');
 });
-server = app.listen(8080);
+
+//
+// app.get('/register', function (req, res, next) {
+//     return res.sendFile(path.join(__dirname + './views/register.ejs'));
+// });
+
+app.post('/register', function (req, res, next) {
+    console.log("Hello");
+    if (req.body.email &&
+      req.body.username &&
+      req.body.password &&
+      req.body.adress &&
+      req.body.phone) {
+        var userData = {
+            email: req.body.email,
+            username: req.body.username,
+            password: req.body.password,
+            adress: req.body.adress,
+            phone: req.body.phone
+        }
+        User.create(userData, function (error, user) {
+            if (error) {
+                return next(error);
+            } else {
+                req.session.userId = user._id;
+                return res.redirect('/profile');
+            }
+        });
+
+    }
+    else {
+        var err = new Error('All fields required.');
+        err.status = 400;
+        return next(err);
+    }
+
+})
+
 
 io.on('connection', socket => {
   console.log("new user pls")
@@ -83,6 +120,56 @@ io.on('connection', socket => {
 })
 
 
+app.get('/profile', function (req, res, next) {
+    User.findById(req.session.userId).exec(function (error, user) {
+        if (error) {
+            return next(error);
+        } else {
+            if (user === null) {
+                var err = new Error('Not authorized! Go back!');
+                err.status = 400;
+                return next(err);
+            }
+        }
+        res.render('profile');
+    });
+});
+
+app.post('/login', function (req, res, next) {
+
+  if (req.body.logemail && req.body.logpassword) {
+    User.authenticate(req.body.logemail, req.body.logpassword, function (error, user) {
+      if (error || !user) {
+        var err = new Error('Wrong email or password.');
+        err.status = 401;
+        return next(err);
+      } else {
+        req.session.userId = user._id;
+        return res.redirect('/profile');
+      }
+    });
+  } else {
+    var err = new Error('All fields required.');
+    err.status = 400;
+    return next(err);
+  }
+
+})
+
+app.get('/logout', function (req, res, next) {
+    if (req.session) {
+        req.session.destroy(function (err) {
+            if (err) {
+                return next(err);
+            } else {
+                return res.redirect('/register');
+            }
+        });
+    }
+});
+
+
+server = app.listen(8080);
 
 /*
 client.connect(err => {

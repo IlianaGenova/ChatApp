@@ -7,6 +7,7 @@ router.get('/register', function (req, res, next) {
 });
 
 router.post('/register', function (req, res, next) {
+    console.log("Hello");
     if (req.body.email &&
       req.body.username &&
       req.body.password &&

@@ -1,5 +1,5 @@
 const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://iliana:<moje>@chatappcluster-sbbmt.mongodb.net/test?retryWrites=true&w=majority";
+const uri = "mongodb+srv://iliana:moje@chatappcluster-sbbmt.mongodb.net/test?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true });
 
 const io = require('socket.io')(3000)
@@ -19,6 +19,7 @@ const MongoStore = require('connect-mongo')(session);
 
 //connect to MongoDB
 mongoose.connect(uri, {
+  useCreateIndex : true,
   useNewUrlParser: true,
   useUnifiedTopology: true,
   serverSelectionTimeoutMS: 5000

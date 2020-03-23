@@ -3,7 +3,7 @@ var router = express.Router();
 var User = require('../user.js');
 
 router.get('/register', function (req, res, next) {
-    return res.sendFile(path.join(__dirname + './templates/register.html'));
+    return res.sendFile(path.join(__dirname + './views/register.ejs'));
 });
 
 router.post('/register', function (req, res, next) {

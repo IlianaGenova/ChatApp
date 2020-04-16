@@ -10,6 +10,7 @@
     "mongo-connect": "0.0.6",
     "mongodb": "^3.5.5",
     "mongoose": "^5.9.5",
+    "node-gyp": "^6.1.0",
     "socket.io": "^2.3.0"
   },
   "devDependencies": {

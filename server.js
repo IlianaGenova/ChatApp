@@ -66,8 +66,17 @@ app.use(function (req, res, next) {
 app.set('view engine', 'ejs');
 //app.use(express.static('public'));
 app.get('/', (req, res) => {
-  //res.send('Hello world')
-  res.render('index');
+  User.findById(req.session.userId).exec(function (error, user) {
+    if (error) {
+        return next(error);
+    } else {
+        if (user === null) {
+            var err = new Error('Not authorized! Please login!');
+            return res.redirect('/register');
+        }
+    }
+    res.render('profile');
+});
 });
 app.get('/login', (req, res) => {
   res.render('login');

@@ -84,6 +84,9 @@ app.get('/login', (req, res) => {
 app.get('/register', (req, res) => {
   res.render('register');
 });
+app.get('/chat', (req, res) => {
+  res.render('chat');
+});
 
 //
 // app.get('/register', function (req, res, next) {
@@ -177,6 +180,9 @@ app.get('/logout', function (req, res, next) {
     }
 });
 
+app.get('/chat', function (req, res, next) {
+
+});
 
 server = app.listen(8080);
 

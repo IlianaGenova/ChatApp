@@ -75,7 +75,7 @@ app.get('/', (req, res) => {
             return res.redirect('/register');
         }
     }
-    res.render('profile');
+    res.render('chat');
 });
 });
 app.get('/login', (req, res) => {
@@ -157,7 +157,7 @@ app.post('/login', function (req, res, next) {
         return next(err);
       } else {
         req.session.userId = user._id;
-        return res.redirect('/profile');
+        return res.redirect('/chat');
       }
     });
   } else {
@@ -180,9 +180,22 @@ app.get('/logout', function (req, res, next) {
     }
 });
 
-app.get('/chat', function (req, res, next) {
-
+app.get('/chat', function (req, res) {
+  if(req.query.search){
+    const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+    User.find({username : regex}, function (err, user){
+      if(err){
+        console.log(err);
+      } else {
+        res.render("/profile") //this should render a chat with the user we searched
+      }
+    });
+  }
 });
+
+function escapeRegex(text) {
+  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
 
 server = app.listen(8080);
 

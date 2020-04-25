@@ -10,11 +10,15 @@
 <body>
   <div class="split left">
     <div class="topnav">
-      <input class="active" type="text" placeholder="Search">
-
-      <button type="submit" class="search-btn">
-        <img class="search-icon" src="https://www.iconsdb.com/icons/preview/white/search-13-xxl.png" />
+      <button onclick="location.href='/profile';" class="nav-btn">
+        <img class="nav-icon" src="https://www.iconsdb.com/icons/preview/white/cog-xxl.png">
       </button>
+      <form id="search" action="/search" method="GET">
+      <input class="active" type="text" name="search" placeholder="Search">
+      <button type="submit" class="nav-btn">
+        <img class="nav-icon" src="https://www.iconsdb.com/icons/preview/white/search-13-xxl.png" />
+      </button>
+      </form>
     </div>
 
     <div class="centered">
@@ -81,7 +85,12 @@
 
 
 
-
+    <!-- <script type="text/javascript">
+      var form = document.getElementById('search')
+      function submitForm(){
+          form.submit()
+      }
+    </script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script type="text/javascript" src="/scripts/chat.js"></script>

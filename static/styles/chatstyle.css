@@ -236,6 +236,8 @@ body {
 /* Style the search box inside the navigation bar */
 .topnav input[type=text] {
   padding: 6px;
+  margin-left: 20px;
+  margin-right: 20px;
   border: none;
   font-size: 17px;
   border-radius: 3px;
@@ -243,15 +245,14 @@ body {
 
 }
 
-.search-icon {
+.nav-icon {
     height: 20px;
     width: 20px;
   }
 
-.search-btn {
+.nav-btn {
   border-radius: 3px;
   padding: 3px 15px;
-  margin-left: 20px;
   background: var(--form-color);
   color: #fff;
   font-weight: bold;
@@ -263,6 +264,6 @@ body {
 }
 
 
-.search-btn:hover {
+.nav-btn:hover {
   background: var(--onclick-color)
 }

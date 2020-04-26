@@ -185,11 +185,27 @@ app.get('/logout', function (req, res, next) {
 app.get('/chat', function (req, res) {
   if(req.query.search){
     const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-    User.find({username : regex}, function (err, user){
+    User.find({username : regex}, function (err, user2){
       if(err){
         console.log(err);
       } else {
-        res.render("/profile") //this should render a chat with the user we searched
+        User.findById(req.session.userId).exec(function (error, user) {
+          if(error){
+            return next(error);
+          }
+          var chatData = {
+            members: [user.id, user2.id],
+            messages: []
+
+          }
+          Chat.create(chatData, function (error, chat) {
+            if(error){
+              return next(error);
+            } else {
+              res.redirect('/chat', {chat : chat});
+            }
+          })
+        });
       }
     });
   }
@@ -203,9 +219,9 @@ app.post('/chat', function (req, res) {
         sender_id: req.session.userId,
         content: req.body.msgerinput
     }
-    Message.create(messageData, function (error, user) {
+    Message.create(messageData, function (error, message) {
         if (error) {
-            return next(error);
+            return error;
         } else {
           //doesnt work with both - keeps reloading
           //res.end();

@@ -7,8 +7,22 @@
     <link rel='stylesheet' type='text/css' href='/styles/style.css' />
 </head>
 <body>
-    <h1>Your Profile</h1>
+    <div class='profile'>
+        <% if (items) { %>
+            <h1>Hello <%= items.username %></h1>
+            <h5>You look extra fluffy today!</h5>
+            <div class="info">
+                <p>Email : <%= items.email %></p>
+                <p>Adress : <%= items.adress %></p>
+                <p>Phone number : <%= items.phone %></p>
+                
+            </div>
+        <% } %>
+    </div>
+    <div class="logout">
     <a href="logout">Logout</a>
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script type="text/javascript" src="/scripts/chat.js"></script>

@@ -17,6 +17,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
+const fs = require('fs');
 
 //connect to MongoDB
 mongoose.connect(uri, {
@@ -144,8 +145,8 @@ app.get('/profile', function (req, res, next) {
                 return next(err);
             }
         }
-        res.render('profile');
-    });
+        res.render('profile', {items: user});
+      });
 });
 
 app.post('/login', function (req, res, next) {

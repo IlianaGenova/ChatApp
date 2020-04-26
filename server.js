@@ -12,6 +12,7 @@ const app = express();
 //const port = process.env.PORT || "8080";
 
 var User = require('./static/models/user.js');
+var Message = require('./static/models/message.js');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const session = require('express-session');
@@ -193,9 +194,37 @@ app.get('/chat', function (req, res) {
   }
 });
 
+app.post('/chat', function (req, res) {
+  if (req.body.msgerinput != '')
+  {
+    var messageData = {
+        chat_id: 0,
+        sender_id: req.session.userId,
+        content: req.body.msgerinput
+    }
+    Message.create(messageData, function (error, user) {
+        if (error) {
+            return next(error);
+        } else {
+          //doesnt work with both - keeps reloading
+          //res.end();
+          //res.status(200) ;
+        }
+    });
+
+  }
+  else {
+      var err = new Error('You need to enter text to the message.');
+      err.status = 400;
+      return next(err);
+  }
+});
+
 function escapeRegex(text) {
-  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };
+
+
 
 server = app.listen(8080);
 

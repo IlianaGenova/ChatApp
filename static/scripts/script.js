@@ -4,14 +4,20 @@ socket.on('chat-message', data => {
   console.log(data)
 });
 
+// $("msger-inputarea").submit(function(e){
+//   e.preventDefault();
+// });
 
+const currentUser = 'Me';
+
+socket.on('sendCurrentUser', function(data) {
+    //currentUser = data.text;
+    console.log(data.text);
+});
+// const Message = get('./static/models/message.js');
 const msgerForm = get(".msger-inputarea");
 const msgerInput = get(".msger-input");
 const msgerChat = get(".msger-chat");
-
-// const msgerForm = req.body.msger-inputarea;
-// const msgerInput = req.body.msger-input;
-// const msgerChat = req.body.msger-chat;
 
 const BOT_MSGS = [
 "Hi, how are you?",
@@ -21,17 +27,21 @@ const BOT_MSGS = [
 "I feel sleepy! :("
 ];
 
+
+
 // Icons made by Freepik from www.flaticon.com
 const BOT_IMG = "https://image.flaticon.com/icons/svg/145/145867.svg";
 const PERSON_IMG = "https://image.flaticon.com/icons/svg/2829/2829841.svg";
 const BOT_NAME = "Name";
-const PERSON_NAME = "User";
+const PERSON_NAME = currentUser;
 
 msgerForm.addEventListener("submit", event => {
 event.preventDefault();
 
 const msgText = msgerInput.value;
 if (!msgText) return;
+
+addMessageToBD(msgText);
 
 appendMessage(PERSON_NAME, PERSON_IMG, "right", msgText);
 msgerInput.value = "";
@@ -56,6 +66,7 @@ const msgHTML = `
   </div>
 `;
 
+
 msgerChat.insertAdjacentHTML("beforeend", msgHTML);
 msgerChat.scrollTop += 500;
 }
@@ -68,6 +79,28 @@ const delay = msgText.split(" ").length * 100;
 setTimeout(() => {
   appendMessage(BOT_NAME, BOT_IMG, "left", msgText);
 }, delay);
+}
+
+function addMessageToBD(msgText) {
+  //
+  // if (msgText)
+  //   {
+  //     var messageData = {
+  //         chat_id: 0,
+  //         sender_id: 2,
+  //         content: msgText
+  //     }
+  //     Message.create(messageData, function (error, user) {
+  //         if (error) {
+  //             return next(error);
+  //         }
+  //     });
+  // }
+  // else {
+  //     var err = new Error('All fields required.');
+  //     err.status = 400;
+  //     return next(err);
+  // }
 }
 
 // Utils

@@ -76,15 +76,19 @@
           </div>
         </main>
 
-        <form class="msger-inputarea">
-          <input type="text" class="msger-input" placeholder="Enter your message...">
+        <form id='msger-inputarea' name="msgerinputarea" method="post" class="msger-inputarea" onsubmit="submitForm();">
+          <input type="text" name="msgerinput" class="msger-input" placeholder="Enter your message...">
           <button type="submit" class="msger-send-btn">Send</button>
         </form>
       </section>
   </div>
 
-
-
+    <script type="text/javascript">
+        var form = document.getElementById('msger-inputarea')
+        function submitForm() {
+            form.submit()
+        }
+    </script>
     <!-- <script type="text/javascript">
       var form = document.getElementById('search')
       function submitForm(){

@@ -13,7 +13,7 @@
       <button onclick="location.href='/profile';" class="nav-btn">
         <img class="nav-icon" src="https://www.iconsdb.com/icons/preview/white/cog-xxl.png">
       </button>
-      <form id="search" action="/search" method="GET">
+      <form id="search" class="search" name="search" action="/chat" method="GET" onSubmit="submitSearch();">
       <input class="active" type="text" name="search" placeholder="Search">
       <button type="submit" class="nav-btn">
         <img class="nav-icon" src="https://www.iconsdb.com/icons/preview/white/search-13-xxl.png" />
@@ -89,12 +89,17 @@
             form.submit()
         }
     </script>
-    <!-- <script type="text/javascript">
+    <script type="text/javascript">
       var form = document.getElementById('search')
-      function submitForm(){
+      form.addEventListener("submit", event => {
+        event.preventDefault();
+      });
+
+      function submitSearch(){
           form.submit()
       }
-    </script> -->
+
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script type="text/javascript" src="/scripts/chat.js"></script>

@@ -13,6 +13,7 @@ const app = express();
 
 var User = require('./static/models/user.js');
 var Message = require('./static/models/message.js');
+var Chat = require('./static/models/chat.js');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const session = require('express-session');
@@ -86,8 +87,49 @@ app.get('/login', (req, res) => {
 app.get('/register', (req, res) => {
   res.render('register');
 });
-app.get('/chat', (req, res) => {
-  res.render('chat');
+app.get('/chat', (req, res, next) => {
+    if(req.query.search){
+      const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+
+
+      User.findOne({username: "pepi"}, function (err, user2){
+        if(err){
+          console.log(err);
+        } else {
+          User.findById(req.session.userId).exec(function (error, user) {
+            if(error){
+              //return next(error);
+              console.log(err);
+            }
+            console.log(user.id)
+            console.log(user2.id)
+
+            var chat = Chat.findOne( {members: { $all: [user.id, user2.id] } } );
+            if(chat.id != undefined) {
+              console.log(chat.id);
+              res.redirect('/chat/id', {id: chat.id});
+            }
+            else {
+              var chatData = {
+                members: [user.id, user2.id],
+                messages: [null]
+              }
+
+              Chat.create(chatData, function (error, chat) {
+                if(error){
+                  return next(error);
+                } else {
+                  res.redirect('/chat', {chat : chat});
+                }
+              })
+            }
+          });
+        }
+      });
+    }
+    else {
+      res.render('chat');
+    }
 });
 
 //
@@ -182,36 +224,16 @@ app.get('/logout', function (req, res, next) {
     }
 });
 
-app.get('/chat', function (req, res) {
-  if(req.query.search){
-    const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-    User.find({username : regex}, function (err, user2){
-      if(err){
-        console.log(err);
-      } else {
-        User.findById(req.session.userId).exec(function (error, user) {
-          if(error){
-            return next(error);
-          }
-          var chatData = {
-            members: [user.id, user2.id],
-            messages: []
-
-          }
-          Chat.create(chatData, function (error, chat) {
-            if(error){
-              return next(error);
-            } else {
-              res.redirect('/chat', {chat : chat});
-            }
-          })
-        });
-      }
-    });
-  }
-});
+// app.get('/chat', function (req, res) {
+//
+//
+// });
 
 app.post('/chat', function (req, res) {
+  // req.body.search.addEventListener("submit", event => {
+  //   event.preventDefault();
+  // });
+
   if (req.body.msgerinput != '')
   {
     var messageData = {
@@ -241,7 +263,7 @@ function escapeRegex(text) {
 return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };
 
-
+//app.get('/search')
 
 server = app.listen(8080);
 

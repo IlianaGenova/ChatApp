@@ -88,7 +88,9 @@ app.get('/register', (req, res) => {
   res.render('register');
 });
 app.get('/chat', (req, res, next) => {
+
     if(req.query.search){
+      console.log("uno")
       const regex = new RegExp(escapeRegex(req.query.search), 'gi');
 
       User.find({username: regex}, function (err, users){
@@ -99,20 +101,21 @@ app.get('/chat', (req, res, next) => {
         }
       });
     }
-    next();
-    if(req.query.searchresult){
+
+    else if(req.query.searchresult) {
+      console.log("dos")
       User.findById(req.session.userId).exec(function (error, user1) {
         if(error){
           //return next(error);
           console.log(err);
         }
-        User.findById(req.query.search-result).exec(function (error, user2){
+        User.findById(req.query.searchresult).exec(function (error, user2){
           if(error){
             console.log(err);
           }
           else{
             console.log(user2.id);
-            console.log(molqse);
+            console.log("molqse");
             Chat.findOne( {members: { $all: [user1.id, user2.id] } } , function (err, chat) {
               if(err){
                 console.log(err);
@@ -150,55 +153,24 @@ app.get('/chat', (req, res, next) => {
 
       });
     }
-    else{
+    else {
+      console.log("tré")
+      console.log(req.query)
+
       res.render("chat");
     }
 });
 
 
-app.get("/chat/:id", function(req, res){
-  // Chat.findById(req.params.id).exec(function(err, foundChat){
-  //       if(err){
-  //           console.log(err);
-  //       } else {
-  //           console.log("chat found")
-  //           res.render('chat');
-  //       }
-  //   });
-    User.findById(req.session.userId).exec(function (error, user1) {
-              if(error){
-                //return next(error);
-                console.log(err);
-              }
-      Chat.findOne( {members: { $all: [user1.id, user2.id] } } , function (err, chat) {
-      if(err){
-        console.log(err);
-      }
-      else {
-        console.log(chat);
-        if(chat != null) {
-          console.log(chat.id);
-          res.redirect(`/chat/${chat.id}`);
+app.get("/chat/:id", function(req, res) {
+  Chat.findById(req.params.id).exec(function(err, foundChat){
+        if(err){
+            console.log(err);
+        } else {
+            console.log("chat found")
+            res.render('chat');
         }
-        else {
-          var chatData = {
-            members: [user1.id, user2.id],
-            messages: [null]
-          }
-
-          Chat.create(chatData, function (error, chat) {
-            if(error){
-              return next(error);
-            } else {
-              console.log(chat.id);
-              res.redirect(`/chat/${chat.id}`);
-            }
-          })
-
-        }
-      }
     });
-  });
 })
 
 app.get('/register', function (req, res, next) {

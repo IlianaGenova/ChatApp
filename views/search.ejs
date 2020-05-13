@@ -10,19 +10,23 @@
         <% for(var i=0; i < items.length; i++) { %>
             <div class="search-result">
             <!-- <a href="chat/<%= items[i].id %>"><%= items[i].username %></a> -->
-            <form id='search-result' action="/chat" method="get" class="register" onsubmit="submitForm(event);">
+            <form action="/chat" method="get" class="search" onsubmit="submitForm(event);">
             <p><%= items[i].username %></p>
-            <button type="submit" name="searchresult" class="nav-btn" value="<%= items[i].id %>">
+            <input type="hidden" name="searchresult" value="<%= items[i].id %>">
+            <button type="submit" class="nav-btn">
             </form>
             </div>
             <br>
         <% } %>
 
     <script type="text/javascript">
-        var form1 = document.getElementById('search-result')
+        // function submitButton(value) {
+        //   value.submit();
+        // }
+
         function submitForm(event) {
             event.preventDefault();
-            form1.submit();
+            event.target.submit();
         }
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>

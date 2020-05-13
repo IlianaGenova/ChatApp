@@ -90,7 +90,7 @@ app.get('/register', (req, res) => {
 app.get('/chat', (req, res, next) => {
 
     if(req.query.search){
-      console.log("uno")
+      // console.log("uno")
       const regex = new RegExp(escapeRegex(req.query.search), 'gi');
 
       User.find({username: regex}, function (err, users){
@@ -103,7 +103,7 @@ app.get('/chat', (req, res, next) => {
     }
 
     else if(req.query.searchresult) {
-      console.log("dos")
+      // console.log("dos")
       User.findById(req.session.userId).exec(function (error, user1) {
         if(error){
           //return next(error);
@@ -123,7 +123,7 @@ app.get('/chat', (req, res, next) => {
               else {
                 console.log(chat);
                 if(chat != null) {
-                  console.log(chat.id);
+                  // console.log(chat.id);
                   res.redirect(`/chat/${chat.id}`);
                 }
                 else {
@@ -154,8 +154,8 @@ app.get('/chat', (req, res, next) => {
       });
     }
     else {
-      console.log("tré")
-      console.log(req.query)
+      // console.log("tré")
+      // console.log(req.query)
 
       res.render("chat");
     }
@@ -167,8 +167,23 @@ app.get("/chat/:id", function(req, res) {
         if(err){
             console.log(err);
         } else {
-            console.log("chat found")
-            res.render('chat');
+            // console.log("chat found")
+            User.find(User.findById(foundChat.members)).exec(function(error, users){
+              if(error){
+                console.log(error);
+              }
+              else {
+                // console.log(users);
+                User.findById(req.session.userId).exec(function(error, user1){
+                  for(i = 0; i < users.length; i++){
+                    if(users[i].id != user1.id){
+                      // console.log(users[i].username);
+                      res.render('chat', {guest: users[i]});
+                    }
+                  }
+                });
+              }
+            });
         }
     });
 })

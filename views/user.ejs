@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatApp</title>
+    <link rel='stylesheet' type='text/css' href='/styles/style.css' />
+</head>
+<body>
+    <% if (items) { %>
+    <div class='profile'>
+            <h1>You are viewing <%= items.username %></h1>
+            <!-- <div class="info">
+                <p>Email : <%= items.email %></p>
+                <p>Adress : <%= items.adress %></p>
+                <p>Phone number : <%= items.phone %></p>
+                
+            </div> -->
+    </div>
+    <form id='search-result' action="/user/<%= items.id %>" method="get" class="register" onsubmit="submitForm(event);">
+        <button type="submit" name="searchresult" class="nav-btn" value="<%= items.id %>">
+    </form>
+    <% } %>
+
+    <script type="text/javascript">
+        var form1 = document.getElementById('search-result')
+        function submitForm(event) {
+            event.preventDefault();
+            form1.submit();
+        }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript" src="/scripts/chat.js"></script>
+    <script type="text/javascript" src='/scripts/script.js'></script>
+</body>
+</html>

@@ -293,12 +293,32 @@ app.get('/blocked', function (req, res){
       console.log(error);
     }
     else{
-      User.findById(req.session.UserId).exec(function (error, user) {
+      User.findById(req.session.userId).exec(function (error, user) {
         if(error){
           console.log(error);
         }
         else {
-          res.render('blocklist', {users : allUsers, items: user.blockedUsers});
+          res.render('blocked', {users : allUsers, items: user.blockedUsers});
+        }
+      });
+    }
+  });
+});
+
+app.post('/blocked', function (req, res){
+  User.findById(req.session.userId).exec(function(error, user){
+    if(error){
+      console.log(error);
+    }
+    else {
+      var unblock = User.findOne(req.body.unblock);
+      console.log(unblock.id);
+      db.collection("users").updateOne(user, {$pop: {blockedUsers: unblock.id}}, function(error){
+        if(error){
+          console.log(error);
+        }
+        else {
+          res.redirect('/profile');
         }
       });
     }

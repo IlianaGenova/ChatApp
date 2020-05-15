@@ -13,7 +13,7 @@
       <button onclick="location.href='/profile';" class="nav-btn">
         <img class="nav-icon" src="https://www.iconsdb.com/icons/preview/white/cog-xxl.png">
       </button>
-      <form id="search" class="search" name="search" action="/chat" method="GET" onSubmit="submitSearch();">
+      <form id="search" class="search" name="search" action="/chat" method="GET" onSubmit="submitForm(event);">
       <input class="active" type="text" name="search" placeholder="Search">
       <button type="submit" class="nav-btn">
         <img class="nav-icon" src="https://www.iconsdb.com/icons/preview/white/search-13-xxl.png" />
@@ -46,42 +46,40 @@
         </header>
         <% } %>
         <main class="msger-chat">
-          <div class="msg left-msg">
-            <div
-             class="msg-img"
-             style="background-image: url(https://image.flaticon.com/icons/svg/145/145867.svg)"
-            ></div>
+          <%
+          function formatDate(date) {
+          const h = "0" + date.getHours();
+          const m = "0" + date.getMinutes();
 
-            <div class="msg-bubble">
-              <div class="msg-info">
-                <!-- <div class="msg-info-name">Name</div> -->
-                <!-- <div class="msg-info-time">auto</div> -->
+          return `${h.slice(-2)}:${m.slice(-2)}`;
+          }
+          %>
+
+          <% if(chat.messages != null) { %>
+            <% for(var i=0; i < chat.messages.length; i++) { %>
+              <% if(chat.messages[i].sender_id == user.id) { %>
+                <div class="msg right-msg">
+              <% } %>
+              <% if(chat.messages[i].sender_id != user.id) { %>
+                  <div class="msg left-msg">
+              <% } %>
+                <div class="msg-img" style="background-image: url(https://image.flaticon.com/icons/svg/145/145867.svg)"></div>
+
+                <div class="msg-bubble">
+                  <div class="msg-info">
+                    <!-- <div class="msg-info-name">${name}</div> -->
+                    <div class="msg-info-time"> <%- formatDate(chat.messages[i].date) %> </div>
+                  </div>
+
+                  <div class="msg-text"> <%= chat.messages[i].content %> </div>
+                </div>
               </div>
+            <% } %>
+          <% } %>
 
-              <div class="msg-text">
-                Hi! A really long message I sent to you because i need to test if the bubble is responsive and how text is being centered
-              </div>
-            </div>
-          </div>
-
-          <div class="msg right-msg">
-            <div
-             class="msg-img"
-             style="background-image:url(https://image.flaticon.com/icons/svg/2829/2829841.svg) "
-            ></div>
-
-            <div class="msg-bubble">
-              <div class="msg-info">
-                <!-- <div class="msg-info-name">User</div>
-                <div class="msg-info-time">auto</div> -->
-              </div>
-
-              <div class="msg-text">
-                Ok hi
-              </div>
-            </div>
-          </div>
         </main>
+
+
 
         <form id='msger-inputarea' name="msgerinputarea" method="post" class="msger-inputarea" onsubmit="submitForm(event);">
           <input type="text" name="msgerinput" class="msger-input" placeholder="Enter your message...">
@@ -91,23 +89,10 @@
   </div>
 
     <script type="text/javascript">
-        // var form1 = document.getElementById('msger-inputarea')
         function submitForm(event) {
           event.preventDefault();
           event.target.submit();
         }
-
-    </script>
-    <script type="text/javascript">
-      var form = document.getElementById('search')
-      form.addEventListener("submit", event => {
-        event.preventDefault();
-      });
-
-      function submitSearch(){
-          form.submit();
-      }
-
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>

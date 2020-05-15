@@ -274,3 +274,7 @@ body {
 .nav-btn:hover {
   background: var(--onclick-color)
 }
+
+.fa-comment-alt {
+  font-size: 24px;
+}

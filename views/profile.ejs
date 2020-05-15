@@ -15,16 +15,22 @@
                 <p>Email : <%= items.email %></p>
                 <p>Adress : <%= items.adress %></p>
                 <p>Phone number : <%= items.phone %></p>
-                
+
             </div>
         <% } %>
     </div>
-    <div class="blocklist">
-        <a href="blocked">Show Blocked Users</a>
-    </div>
-    <br>
-    <div class="logout">
-    <a href="logout">Logout</a>
+    <div class="button-container">
+      <div class="blocklist">
+          <a href="blocked">Show Blocked Users</a>
+      </div>
+      <br>
+      <div class="chatindex">
+        <a href="/">Start a chat</a>
+      </div>
+      <br>
+      <div class="logout">
+        <a href="logout">Logout</a>
+      </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>

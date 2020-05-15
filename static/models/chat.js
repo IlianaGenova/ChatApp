@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-
+var Message = require('./message.js');
 
 var ChatSchema = new mongoose.Schema({
     members: {
@@ -8,9 +8,8 @@ var ChatSchema = new mongoose.Schema({
       required: true,
     },
     messages: {
-      type: Array,
-
-      required: true,
+      type: [Message],
+      default: null
     }
   });
 

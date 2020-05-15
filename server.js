@@ -28,7 +28,7 @@ mongoose.connect(uri, {
   serverSelectionTimeoutMS: 5000
 }).catch(err => console.log(err.reason));
 const db = mongoose.connection;
-
+module.exports = mongoose.model('Message', Message);
 //handle mongo error
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
@@ -137,6 +137,7 @@ app.get('/chat', (req, res, next) => {
                       return next(error);
                     } else {
                       // console.log(chat.id);
+                      db.collection("chats").updateMany( {}, {$pull:{messages:null}}, {multi:true});
                       res.redirect(`/chat/${chat.id}`);
                     }
                   })
@@ -182,12 +183,25 @@ app.get("/chat/:id", function(req, res) {
                         res.render('blockedchat', {guest: users[i], chat: foundChat});
                       }
                       else {
-                        res.render('chat', {guest: users[i], chat: foundChat});
+                        res.render('chat', {guest: users[i], chat: foundChat, user: user1});
                       }
                     }
                   }
                 });
               }
+
+
+                // foundChat.messages.create(messageData, function (error, message) {
+                //   console.log(error, message.content)
+                //     if (error) {
+                //         return error;
+                //     } else {
+                //
+                //       //doesnt work with both - keeps reloading
+                //       //res.end();
+                //       //res.status(200) ;
+                //     }
+                // });
             });
         }
     });
@@ -202,6 +216,27 @@ app.post("/chat/:id", function(req, res) {
         User.find(User.findById(foundChat.members)).exec(function(error, users){
           if(error){
             console.log(error);
+          }//save message to chat
+          else if (req.body.msgerinput != '')
+          {
+            //console.log("dabe");
+            var messageData = {
+                sender_id: req.session.userId,
+                content: req.body.msgerinput,
+                date: new Date()
+            }
+            //io.emit('ismessage', messageData);
+            //var newMessage = new Message(messageData)
+            db.collection("chats").updateOne(foundChat, {$push: {"messages": messageData}}, function(error) {
+              if(error){
+                console.log(error);
+              }
+            })
+          }
+          else if (req.body.msgerinput == '') {
+            var err = new Error('You need to enter text to the message.');
+            err.status = 400;
+            return next(err);
           }
           else {
             // console.log(users);
@@ -367,31 +402,6 @@ app.post('/chat', function (req, res) {
   // req.body.search.addEventListener("submit", event => {
   //   event.preventDefault();
   // });
-
-  if (req.body.msgerinput != '')
-  {
-    var messageData = {
-        chat_id: 0,
-        sender_id: req.session.userId,
-        content: req.body.msgerinput
-    }
-    Message.create(messageData, function (error, message) {
-      console.log(error, message.content)
-        if (error) {
-            return error;
-        } else {
-          //doesnt work with both - keeps reloading
-          //res.end();
-          //res.status(200) ;
-        }
-    });
-
-  }
-  else {
-      var err = new Error('You need to enter text to the message.');
-      err.status = 400;
-      return next(err);
-  }
 });
 
 function escapeRegex(text) {

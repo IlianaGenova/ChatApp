@@ -38,7 +38,7 @@
             <% if (chat) { %>
             <form action="/chat/<%= chat.id %>" method="post" class="block" onsubmit="submitForm(event);">
               <input type="hidden" name="blockuser" value="<%= guest.id %>">
-              <button type="submit" class="nav-btn">
+              <button type="submit" class="nav-btn">Block</button>
             </form>
             <% } %>
             <span><i class="fas fa-cog"></i></span>

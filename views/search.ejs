@@ -7,17 +7,19 @@
     <link rel='stylesheet' type='text/css' href='/styles/style.css' />
 </head>
 <body>
+    <div class="search-outline">
         <% for(var i=0; i < items.length; i++) { %>
             <div class="search-result">
             <!-- <a href="chat/<%= items[i].id %>"><%= items[i].username %></a> -->
             <form action="/chat" method="get" class="search" onsubmit="submitForm(event);">
             <p><%= items[i].username %></p>
             <input type="hidden" name="searchresult" value="<%= items[i].id %>">
-            <button type="submit" class="nav-btn">
+            <button type="submit" class="nav-btn">Start a chat</button>
             </form>
             </div>
             <br>
         <% } %>
+    </div>
 
     <script type="text/javascript">
         // function submitButton(value) {

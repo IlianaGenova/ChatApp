@@ -114,14 +114,14 @@ app.get('/chat', (req, res, next) => {
             console.log(err);
           }
           else{
-            console.log(user2.id);
-            console.log("molqse");
+            // console.log(user2.id);
+            // console.log("molqse");
             Chat.findOne( {members: { $all: [user1.id, user2.id] } } , function (err, chat) {
               if(err){
                 console.log(err);
               }
               else {
-                console.log(chat);
+                // console.log(chat);
                 if(chat != null) {
                   // console.log(chat.id);
                   res.redirect(`/chat/${chat.id}`);
@@ -178,7 +178,12 @@ app.get("/chat/:id", function(req, res) {
                   for(i = 0; i < users.length; i++){
                     if(users[i].id != user1.id){
                       // console.log(users[i].username);
-                      res.render('chat', {guest: users[i], chat: foundChat});
+                      if(users[i].blockedUsers.includes(user1.id) || user1.blockedUsers.includes(users[i].id)){
+                        res.render('blockedchat', {guest: users[i], chat: foundChat});
+                      }
+                      else {
+                        res.render('chat', {guest: users[i], chat: foundChat});
+                      }
                     }
                   }
                 });
@@ -212,7 +217,7 @@ app.post("/chat/:id", function(req, res) {
                       console.log(error);
                     }
                     else {
-                      // console.log(user1.blockedUsers);
+                      res.redirect(`/chat/${foundChat.id}`);
                     }
                   });
                 }
@@ -282,13 +287,20 @@ app.get('/profile', function (req, res, next) {
       });
 });
 
-app.get('/blocklist', function (req, res){
-  User.findById(req.session.UserId).exec(function (error, user) {
+app.get('/blocked', function (req, res){
+  User.find().exec(function (error, allUsers){
     if(error){
       console.log(error);
     }
-    else {
-      res.render('blocklist', {item: user.blockedUsers});
+    else{
+      User.findById(req.session.UserId).exec(function (error, user) {
+        if(error){
+          console.log(error);
+        }
+        else {
+          res.render('blocklist', {users : allUsers, items: user.blockedUsers});
+        }
+      });
     }
   });
 });

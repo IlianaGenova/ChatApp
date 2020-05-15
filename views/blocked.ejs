@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatApp</title>
+    <link rel='stylesheet' type='text/css' href='/styles/style.css' />
+</head>
+<body>
+        <% for(var i=0; i < items.length; i++) { %>
+            <% for(var k=0; k < users.length; k++) { %>
+                <% if(users[k].id == items[i]) { %>
+                    <div class="blocked-users">
+                        <form action="/blocked" method="get" onsubmit="submitForm(event);">
+                            <p><%= users[k].username %></p>
+                            <input type="hidden" name="searchresult" value="<%= items[i].id %>">
+                            <button type="submit" class="nav-btn">
+                        </form>
+                    </div>
+                    <br>
+                <% } %>
+            <% } %>
+        <% } %>
+
+    <script type="text/javascript">
+        // function submitButton(value) {
+        //   value.submit();
+        // }
+
+        function submitForm(event) {
+            event.preventDefault();
+            event.target.submit();
+        }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript" src="/scripts/chat.js"></script>
+    <script type="text/javascript" src='/scripts/script.js'></script>
+</body>
+</html>

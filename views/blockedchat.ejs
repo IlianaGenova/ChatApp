@@ -35,42 +35,44 @@
             <i class="fas fa-comment-alt"><%= guest.username %></i>
           </div>
           <div class="msger-header-options">
-            <% if (chat) { %>
+            <!-- <% if (chat) { %>
             <form action="/chat/<%= chat.id %>" method="post" class="block" onsubmit="submitForm(event);">
-              <input type="hidden" name="blockuser" value="<%= guest.id %>">
+              <input type="text" name="blockuser" value="<%= guest.id %>">
               <button type="submit" class="nav-btn">
             </form>
-            <% } %>
+            <% } %> -->
             <span><i class="fas fa-cog"></i></span>
           </div>
         </header>
         <% } %>
-        <main class="msger-chat">
-          <div class="msg left-msg">
+        <main class="msger-chat" class="blocked-message">
+            <h1>Oopsie! You can't talk to this user because he has blocked you or you have blocked him! </h1>
+            <p>To unblock go to your profile, then blocked users and click on the unblock button next to the user's name.</p>
+          <!-- <div class="msg left-msg">
             <div
              class="msg-img"
              style="background-image: url(https://image.flaticon.com/icons/svg/145/145867.svg)"
             ></div>
 
-            <div class="msg-bubble">
+            <!-- <div class="msg-bubble">
               <div class="msg-info">
                 <!-- <div class="msg-info-name">Name</div> -->
                 <!-- <div class="msg-info-time">auto</div> -->
               </div>
 
-              <div class="msg-text">
+              <!-- <div class="msg-text">
                 Hi! A really long message I sent to you because i need to test if the bubble is responsive and how text is being centered
               </div>
-            </div>
-          </div>
+            </div> -->
+          <!-- </div>
 
           <div class="msg right-msg">
             <div
              class="msg-img"
              style="background-image:url(https://image.flaticon.com/icons/svg/2829/2829841.svg) "
-            ></div>
+            ></div> -->
 
-            <div class="msg-bubble">
+            <!-- <div class="msg-bubble">
               <div class="msg-info">
                 <!-- <div class="msg-info-name">User</div>
                 <div class="msg-info-time">auto</div> -->
@@ -79,14 +81,14 @@
               <div class="msg-text">
                 Ok hi
               </div>
-            </div>
-          </div>
+            </div> -->
+          </div> -->
         </main>
 
-        <form id='msger-inputarea' name="msgerinputarea" method="post" class="msger-inputarea" onsubmit="submitForm(event);">
+        <!-- <form id='msger-inputarea' name="msgerinputarea" method="post" class="msger-inputarea" onsubmit="submitForm(event);">
           <input type="text" name="msgerinput" class="msger-input" placeholder="Enter your message...">
           <button type="submit" class="msger-send-btn">Send</button>
-        </form>
+        </form> -->
       </section>
   </div>
 

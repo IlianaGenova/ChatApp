@@ -14,10 +14,24 @@
   </div>
   <br>
   <div id="message-container"></div>
-  <form id="send-container">
-    <input type="text" id="message" class="text">
-    <button type="submit" id="send-button">Send</button>
+  <form id="search" class="search" name="search" action="/chat" method="GET" onSubmit="submitSearch();">
+    <input class="active" type="text" name="search" placeholder="Search">
+    <button type="submit" class="nav-btn">
+      <img class="nav-icon" src="https://www.iconsdb.com/icons/preview/white/search-13-xxl.png" />
+    </button>
   </form>
+
+<script type="text/javascript">
+  var form = document.getElementById('search')
+  form.addEventListener("submit", event => {
+    event.preventDefault();
+  });
+
+  function submitSearch(){
+      form.submit();
+  }
+
+</script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
   <script src="http://code.jquery.com/jquery-latest.min.js"></script>
   <script type="text/javascript" src="/scripts/chat.js"></script>

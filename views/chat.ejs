@@ -35,6 +35,12 @@
             <i class="fas fa-comment-alt"><%= guest.username %></i>
           </div>
           <div class="msger-header-options">
+            <% if (chat) { %>
+            <form action="/chat/<%= chat.id %>" method="post" class="block" onsubmit="submitForm(event);">
+              <input type="text" name="blockuser" value="<%= guest.id %>">
+              <button type="submit" class="nav-btn">
+            </form>
+            <% } %>
             <span><i class="fas fa-cog"></i></span>
           </div>
         </header>
@@ -85,11 +91,12 @@
   </div>
 
     <script type="text/javascript">
-        var form1 = document.getElementById('msger-inputarea')
+        // var form1 = document.getElementById('msger-inputarea')
         function submitForm(event) {
           event.preventDefault();
-          form1.submit();
+          event.target.submit();
         }
+
     </script>
     <script type="text/javascript">
       var form = document.getElementById('search')

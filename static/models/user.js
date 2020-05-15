@@ -28,6 +28,9 @@ var UserSchema = new mongoose.Schema({
     type: Number,
     required: true,
     trim: true
+  },
+  blockedUsers: {
+    type: Array
   }
 });
 

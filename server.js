@@ -78,7 +78,7 @@ app.get('/', (req, res) => {
             return res.redirect('/register');
         }
     }
-    res.render('chat');
+    res.render('index');
 });
 });
 app.get('/login', (req, res) => {
@@ -178,7 +178,7 @@ app.get("/chat/:id", function(req, res) {
                   for(i = 0; i < users.length; i++){
                     if(users[i].id != user1.id){
                       // console.log(users[i].username);
-                      res.render('chat', {guest: users[i]});
+                      res.render('chat', {guest: users[i], chat: foundChat});
                     }
                   }
                 });
@@ -187,6 +187,42 @@ app.get("/chat/:id", function(req, res) {
         }
     });
 })
+
+app.post("/chat/:id", function(req, res) {
+  Chat.findById(req.params.id).exec(function(err, foundChat){
+    if(err){
+        console.log(err);
+    } else {
+        // console.log("chat found")
+        User.find(User.findById(foundChat.members)).exec(function(error, users){
+          if(error){
+            console.log(error);
+          }
+          else {
+            // console.log(users);
+            User.findById(req.session.userId).exec(function(error, user1){
+              for(i = 0; i < users.length; i++){
+                if(users[i].id != user1.id){
+                  // console.log(users[i].username);
+                  var block = {
+                    blockedUsers : users[i].id
+                  }
+                  db.collection("users").updateOne(user1, {$push: block}, function(error){
+                    if(error){
+                      console.log(error);
+                    }
+                    else {
+                      // console.log(user1.blockedUsers);
+                    }
+                  });
+                }
+              }
+            });
+          }
+        });
+    }
+});
+});
 
 app.get('/register', function (req, res, next) {
     return res.sendFile(path.join(__dirname + './views/register.ejs'));
@@ -246,6 +282,17 @@ app.get('/profile', function (req, res, next) {
       });
 });
 
+app.get('/blocklist', function (req, res){
+  User.findById(req.session.UserId).exec(function (error, user) {
+    if(error){
+      console.log(error);
+    }
+    else {
+      res.render('blocklist', {item: user.blockedUsers});
+    }
+  });
+});
+
 app.post('/login', function (req, res, next) {
 
   if (req.body.logemail && req.body.logpassword) {
@@ -256,7 +303,7 @@ app.post('/login', function (req, res, next) {
         return next(err);
       } else {
         req.session.userId = user._id;
-        return res.redirect('/chat');
+        return res.redirect('/');
       }
     });
   } else {

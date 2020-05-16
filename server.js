@@ -340,21 +340,30 @@ app.get('/blocked', function (req, res){
   });
 });
 
-app.post('/blocked', function (req, res){
-  User.findById(req.session.userId).exec(function(error, user){
+app.post('/unblock', function (req, res){
+  User.findById(req.session.userId).exec(function(error, current_user){
     if(error){
       console.log(error);
     }
     else {
-      var unblock = User.findOne(req.body.unblock);
-      console.log(unblock.id);
-      db.collection("users").updateOne(user, {$pop: {blockedUsers: unblock.id}}, function(error){
-        if(error){
-          console.log(error);
-        }
-        else {
-          res.redirect('/profile');
-        }
+      console.log(req.body.unblock);
+      console.log(req.session.userId);
+      var unblock = User.findById(req.body.unblock).exec(function(error, unblock_user){
+        console.log(unblock_user.id);
+        console.log(current_user.blockedUsers);
+        // const index = current_user.blockedUsers.indexOf(unblock_user.id);
+        // if (index > -1) {
+        //     current_user.blockedUsers.splice(index, 1);
+        // }
+        // console.log(current_user.blockedUsers);
+        db.collection("users").updateOne(current_user, {$pull: {blockedUsers: unblock_user.id} }, function(error){
+          if(error){
+            console.log(error);
+          }
+          else {
+            res.redirect('/profile');
+          }
+        });
       });
     }
   });

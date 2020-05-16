@@ -7,21 +7,21 @@
     <link rel='stylesheet' type='text/css' href='/styles/style.css' />
 </head>
 <body>
+    <a href="/profile">Return to profile</a>
         <% for(var i=0; i < items.length; i++) { %>
             <% for(var k=0; k < users.length; k++) { %>
                 <% if(users[k].id == items[i]) { %>
                     <div class="blocked-users">
-                        <form action="/blocked" method="post" onsubmit="submitForm(event);">
+                        <form action="/unblock" method="post" onsubmit="submitForm(event);">
                             <p><%= users[k].username %></p>
                             <input type="hidden" name="unblock" value="<%= items[i] %>">
-                            <button type="submit" class="nav-btn">
+                            <button type="submit" class="nav-btn">Unblock</button>
                         </form>
                     </div>
                     <br>
                 <% } %>
             <% } %>
         <% } %>
-
     <script type="text/javascript">
         // function submitButton(value) {
         //   value.submit();

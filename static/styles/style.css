@@ -154,19 +154,29 @@ h1 {
 
 .search {
   display: flex;
-  flex-flow: row;
+  flex-flow: column;
   justify-content:center;
   align-items: center;
+  margin: 100px 10px;
 }
 
 .active {
-margin: 200px 10px;
+  margin: 50px 10px;
+  flex-grow: 1;
+  width: 600px;
+  max-width: 100%
 }
 
 /* .form {
 
 } */
-
+.search-bar {
+  display: flex;
+  flex-flow: row;
+  justify-content:center;
+  align-items: center;
+  margin: 50px 10px;
+}
 .nav-icon {
   max-width: 25px;
   max-height: 25px;

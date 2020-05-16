@@ -96,7 +96,6 @@ app.get('/register', (req, res) => {
 app.get('/chat', (req, res, next) => {
 
     if(req.query.search){
-      // console.log("uno")
       const regex = new RegExp(escapeRegex(req.query.search), 'gi');
 
       User.find({username: regex}, function (err, users){
@@ -109,7 +108,6 @@ app.get('/chat', (req, res, next) => {
     }
 
     else if(req.query.searchresult) {
-      // console.log("dos")
       User.findById(req.session.userId).exec(function (error, user1) {
         if(error){
           //return next(error);
@@ -121,7 +119,6 @@ app.get('/chat', (req, res, next) => {
           }
           else{
             // console.log(user2.id);
-            // console.log("molqse");
             Chat.findOne( {members: { $all: [user1.id, user2.id] } } , function (err, chat) {
               if(err){
                 console.log(err);
@@ -162,9 +159,6 @@ app.get('/chat', (req, res, next) => {
       });
     }
     else {
-      // console.log("tré")
-      // console.log(req.query)
-
       res.render("chat");
     }
 });
@@ -195,7 +189,6 @@ app.get("/chat/:id", function(req, res) {
                       User.findById(req.session.userId).exec(function(error, user1){
                         for(i = 0; i < users.length; i++){
                           if(users[i].id != user1.id){
-                            // console.log(users[i].username);
                             if(users[i].blockedUsers.includes(user1.id) || user1.blockedUsers.includes(users[i].id)){
                               res.render('blockedchat', {guest: users[i], chat: foundChat, user: user1, allChats: allChats, allUsers: allUsers});
                             }
@@ -240,7 +233,6 @@ app.post("/chat/:id", function(req, res) {
           }//save message to chat
           else if (req.body.msgerinput != '')
           {
-            //console.log("dabe");
             var messageData = {
                 sender_id: req.session.userId,
                 content: req.body.msgerinput,
@@ -269,7 +261,6 @@ app.post('/block/:id', function (req, res){
     if(err){
         console.log(err);
     } else {
-         console.log("chat found")
         User.find(User.findById(foundChat.members)).exec(function(error, users){
           if(error){
             console.log(error);
@@ -288,7 +279,6 @@ app.post('/block/:id', function (req, res){
                       console.log(error);
                     }
                     else {
-                      console.log("iliana go schupi?")
                       res.redirect(`/chat/${foundChat.id}`);
                     }
                   });
@@ -384,8 +374,8 @@ app.post('/unblock', function (req, res){
       console.log(error);
     }
     else {
-      console.log(req.body.unblock);
-      console.log(req.session.userId);
+      //console.log(req.body.unblock);
+      //console.log(req.session.userId);
       var unblock = User.findById(req.body.unblock).exec(function(error, unblock_user){
         console.log(unblock_user.id);
         console.log(current_user.blockedUsers);

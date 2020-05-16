@@ -58,7 +58,7 @@
           </div>
           <div class="msger-header-options">
             <% if (chat) { %>
-            <form action="/chat/<%= chat.id %>" method="post" class="block" onsubmit="submitForm(event);">
+            <form action="/block/<%= chat.id %>" method="post" class="block" onsubmit="submitForm(event);">
               <input type="hidden" name="blockuser" value="<%= guest.id %>">
               <button type="submit" class="nav-btn">Block</button>
             </form>
@@ -79,23 +79,25 @@
 
           <% if(chat.messages != null) { %>
             <% for(var i=0; i < chat.messages.length; i++) { %>
-              <% if(chat.messages[i].sender_id == user.id) { %>
-                <div class="msg right-msg">
-              <% } %>
-              <% if(chat.messages[i].sender_id != user.id) { %>
-                  <div class="msg left-msg">
-              <% } %>
-                <div class="msg-img" style="background-image: url(https://image.flaticon.com/icons/svg/145/145867.svg)"></div>
+              <% if(chat.messages[i].content != null) { %>
+                <% if(chat.messages[i].sender_id == user.id) { %>
+                  <div class="msg right-msg">
+                <% } %>
+                <% if(chat.messages[i].sender_id != user.id) { %>
+                    <div class="msg left-msg">
+                <% } %>
+                  <div class="msg-img" style="background-image: url(https://image.flaticon.com/icons/svg/145/145867.svg)"></div>
 
-                <div class="msg-bubble">
-                  <div class="msg-info">
-                    <!-- <div class="msg-info-name">${name}</div> -->
-                    <div class="msg-info-time"> <%- formatDate(chat.messages[i].date) %> </div>
+                  <div class="msg-bubble">
+                    <div class="msg-info">
+                      <!-- <div class="msg-info-name">${name}</div> -->
+                      <div class="msg-info-time"> <%- formatDate(chat.messages[i].date) %> </div>
+                    </div>
+
+                    <div class="msg-text"> <%= chat.messages[i].content %> </div>
                   </div>
-
-                  <div class="msg-text"> <%= chat.messages[i].content %> </div>
                 </div>
-              </div>
+              <% } %>
             <% } %>
           <% } %>
 

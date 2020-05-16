@@ -269,7 +269,7 @@ app.post('/block/:id', function (req, res){
     if(err){
         console.log(err);
     } else {
-        // console.log("chat found")
+         console.log("chat found")
         User.find(User.findById(foundChat.members)).exec(function(error, users){
           if(error){
             console.log(error);
@@ -288,6 +288,7 @@ app.post('/block/:id', function (req, res){
                       console.log(error);
                     }
                     else {
+                      console.log("iliana go schupi?")
                       res.redirect(`/chat/${foundChat.id}`);
                     }
                   });

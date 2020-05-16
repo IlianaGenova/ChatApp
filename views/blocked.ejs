@@ -12,7 +12,7 @@
             <% for(var k=0; k < users.length; k++) { %>
                 <% if(users[k].id == items[i]) { %>
                     <div class="blocked-users">
-                        <form action="/unblock" method="post" onsubmit="submitForm(event);">
+                        <form action="/unblock" class="listing" method="post" onsubmit="submitForm(event);">
                             <p><%= users[k].username %></p>
                             <input type="hidden" name="unblock" value="<%= items[i] %>">
                             <button type="submit" class="nav-btn">Unblock</button>

@@ -36,7 +36,7 @@
           </div>
           <div class="msger-header-options">
             <% if (chat) { %>
-            <form action="/chat/<%= chat.id %>" method="post" class="block" onsubmit="submitForm(event);">
+            <form action="/block/<%= chat.id %>" method="post" class="block" onsubmit="submitForm(event);">
               <input type="hidden" name="blockuser" value="<%= guest.id %>">
               <button type="submit" class="nav-btn">Block</button>
             </form>

@@ -238,6 +238,21 @@ app.post("/chat/:id", function(req, res) {
             err.status = 400;
             return next(err);
           }
+        });
+    }
+  });
+});
+
+app.post('/block/:id', function (req, res){
+  Chat.findById(req.params.id).exec(function(err, foundChat){
+    if(err){
+        console.log(err);
+    } else {
+        // console.log("chat found")
+        User.find(User.findById(foundChat.members)).exec(function(error, users){
+          if(error){
+            console.log(error);
+          }//save message to chat
           else {
             // console.log(users);
             User.findById(req.session.userId).exec(function(error, user1){
@@ -261,7 +276,7 @@ app.post("/chat/:id", function(req, res) {
           }
         });
     }
-});
+  });
 });
 
 app.get('/register', function (req, res, next) {

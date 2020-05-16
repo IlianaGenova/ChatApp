@@ -1,4 +1,3 @@
-
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt');
 
@@ -30,6 +29,9 @@ var UserSchema = new mongoose.Schema({
     trim: true
   },
   blockedUsers: {
+    type: Array
+  },
+  previousChats: {
     type: Array
   }
 });

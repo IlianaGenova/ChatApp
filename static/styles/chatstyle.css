@@ -277,4 +277,21 @@ body {
 
 .fa-comment-alt {
   font-size: 24px;
+  font-family: monospace;
+}
+
+.users-btn {
+  max-width: 100%;
+  width: 300px;
+  max-height: 100%;
+  height: 200px;
+  margin:  20px 0px;
+}
+
+.prev-chats {
+  margin:  20px 0px;
+  max-width: 100%;
+  width: 250px;
+  max-height: 100%;
+  height: 70px;
 }

@@ -22,9 +22,32 @@
     </div>
 
     <div class="centered">
-      <h2>Prev convos</h2>
-      <p>search bar</p>
+    <% var flag = 0 %>
+      <% if (user.previousChats) { %>
+        <% for(var j = 0; j < user.previousChats.length; j++) { %>
+          <% for(var i = 0; i < allChats.length; i++) { %>
+            <% if(allChats[i].id == user.previousChats[j]) { %>
+              <% for(var k = 0; k < allUsers.length; k++) { %>
+                <% if(allUsers[k].id == allChats[i].members[1]) { %>
+                  <form action="/chat/<%= user.previousChats[j] %>" method="get" class="prev-chats" onsubmit="submitForm(event);">
+                    <button type="submit" class="nav-btn users-btn" >
+                      <h3 class="chat-name"> <%= allUsers[k].username %> </h3>
+                    </button>
+                  </form>
+                  <% flag = 1 %>
+                  <% break %>
+                <% } %>
+              <% } %>
+            <% } %>
+          <% if(flag) { flag = 0; break; }} %>
+        <% i = 0; } %>
+      <% } %>
+      <% if (user.previousChats == null) { %>
+        <h2 class="alert"> You have not talked to other unicorns yet.</h2>
+        <h3 class="alert"> It is time to start a new chat!</h2>
+      <% } %>
     </div>
+  </div>
   </div>
 
   <div class="split right">

@@ -6,10 +6,13 @@ const io = require('socket.io')(3000)
 //const fs = require('fs')
 //var http = require('http');
 
+
+
 const express = require("express");
 const path = require("path");
 const app = express();
 //const port = process.env.PORT || "8080";
+
 
 var User = require('./static/models/user.js');
 var Message = require('./static/models/message.js');
@@ -69,6 +72,9 @@ app.use(function (req, res, next) {
 app.set('view engine', 'ejs');
 //app.use(express.static('public'));
 app.get('/', (req, res) => {
+  //remove this pls
+  //db.collection("users").updateMany( {}, {$push:{previousChats:null}}, {multi:true});
+  //db.collection("users").updateMany( {}, {$pull: {previousChats:null}}, {multi:true});
   User.findById(req.session.userId).exec(function (error, user) {
     if (error) {
         return next(error);
@@ -136,8 +142,9 @@ app.get('/chat', (req, res, next) => {
                     if(error){
                       return next(error);
                     } else {
-                      // console.log(chat.id);
-                      db.collection("chats").updateMany( {}, {$pull:{messages:null}}, {multi:true});
+                      db.collection("users").updateOne( user1, {$push: {previousChats: chat.id}});
+                      db.collection("users").updateOne( user2, {$push: {previousChats: chat.id}});
+                      db.collection("chats").updateMany( {}, {$pull: {messages: null}}, {multi:true});
                       res.redirect(`/chat/${chat.id}`);
                     }
                   })
@@ -164,47 +171,61 @@ app.get('/chat', (req, res, next) => {
 
 
 app.get("/chat/:id", function(req, res) {
-  Chat.findById(req.params.id).exec(function(err, foundChat){
-        if(err){
-            console.log(err);
-        } else {
-            // console.log("chat found")
-            User.find(User.findById(foundChat.members)).exec(function(error, users){
-              if(error){
-                console.log(error);
-              }
-              else {
-                // console.log(users);
-                User.findById(req.session.userId).exec(function(error, user1){
-                  for(i = 0; i < users.length; i++){
-                    if(users[i].id != user1.id){
-                      // console.log(users[i].username);
-                      if(users[i].blockedUsers.includes(user1.id) || user1.blockedUsers.includes(users[i].id)){
-                        res.render('blockedchat', {guest: users[i], chat: foundChat});
-                      }
-                      else {
-                        res.render('chat', {guest: users[i], chat: foundChat, user: user1});
-                      }
-                    }
-                  }
-                });
-              }
-
-
-                // foundChat.messages.create(messageData, function (error, message) {
-                //   console.log(error, message.content)
-                //     if (error) {
-                //         return error;
-                //     } else {
-                //
-                //       //doesnt work with both - keeps reloading
-                //       //res.end();
-                //       //res.status(200) ;
-                //     }
-                // });
-            });
+  User.find().exec(function (error, allUsers){
+    if(error){
+      console.log(error);
+    }
+    else {
+      Chat.find().exec(function (error, allChats){
+        if(error){
+          console.log(error);
         }
-    });
+        else {
+          Chat.findById(req.params.id).exec(function(err, foundChat){
+              if(err){
+                  console.log(err);
+              } else {
+                  // console.log("chat found")
+                  User.find(User.findById(foundChat.members)).exec(function(error, users){
+                    if(error){
+                      console.log(error);
+                    }
+                    else {
+                      // console.log(users);
+                      User.findById(req.session.userId).exec(function(error, user1){
+                        for(i = 0; i < users.length; i++){
+                          if(users[i].id != user1.id){
+                            // console.log(users[i].username);
+                            if(users[i].blockedUsers.includes(user1.id) || user1.blockedUsers.includes(users[i].id)){
+                              res.render('blockedchat', {guest: users[i], chat: foundChat, user: user1, allChats: allChats, allUsers: allUsers});
+                            }
+                            else {
+                              res.render('chat', {guest: users[i], chat: foundChat, user: user1, allChats: allChats, allUsers: allUsers});
+                            }
+                          }
+                        }
+                      });
+                    }
+
+
+                      // foundChat.messages.create(messageData, function (error, message) {
+                      //   console.log(error, message.content)
+                      //     if (error) {
+                      //         return error;
+                      //     } else {
+                      //
+                      //       //doesnt work with both - keeps reloading
+                      //       //res.end();
+                      //       //res.status(200) ;
+                      //     }
+                      // });
+                  });
+              }
+          });
+        }
+      })
+    }
+  })
 })
 
 app.post("/chat/:id", function(req, res) {
@@ -302,6 +323,7 @@ app.post('/register', function (req, res, next) {
                 return next(error);
             } else {
                 req.session.userId = user._id;
+                db.collection("users").updateOne( user, {$pull: {previousChats:null}});
                 return res.redirect('/profile');
             }
         });

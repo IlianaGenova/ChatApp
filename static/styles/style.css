@@ -157,7 +157,7 @@ h1 {
   flex-flow: column;
   justify-content:center;
   align-items: center;
-  margin: 100px 10px;
+  margin: 50px 10px;
 }
 
 .active {
@@ -175,7 +175,7 @@ h1 {
   flex-flow: row;
   justify-content:center;
   align-items: center;
-  margin: 50px 10px;
+  margin: 30px 10px;
 }
 .nav-icon {
   max-width: 25px;
@@ -264,4 +264,9 @@ h1 {
   width: 350px;
   max-width: 100%;
   justify-content: space-around;
+}
+
+.search-logo {
+    width: 350px;
+    height: 250px;
 }

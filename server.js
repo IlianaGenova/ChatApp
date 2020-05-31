@@ -2,16 +2,17 @@ const MongoClient = require('mongodb').MongoClient;
 const uri = "mongodb+srv://iliana:moje@chatappcluster-sbbmt.mongodb.net/test?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true });
 
-const io = require('socket.io')(3000)
-//const fs = require('fs')
-//var http = require('http');
 
+//const fs = require('fs')
 
 
 const express = require("express");
+var http = require('http');
 const path = require("path");
 const app = express();
+var server = app.listen(3000);
 //const port = process.env.PORT || "8080";
+const io = require('socket.io').listen(server)
 
 
 var User = require('./static/models/user.js');
@@ -185,9 +186,10 @@ app.get("/chat/:id", function(req, res) {
                       console.log(error);
                     }
                     else {
-                      // console.log(users);
+                      //console.log(users);
                       User.findById(req.session.userId).exec(function(error, user1){
-                        for(i = 0; i < users.length; i++){
+						//console.log(user1)
+						for(i = 0; i < users.length; i++){
                           if(users[i].id != user1.id){
                             if(users[i].blockedUsers.includes(user1.id) || user1.blockedUsers.includes(users[i].id)){
                               res.render('blockedchat', {guest: users[i], chat: foundChat, user: user1, allChats: allChats, allUsers: allUsers});
@@ -226,7 +228,7 @@ app.post("/chat/:id", function(req, res) {
     if(err){
         console.log(err);
     } else {
-        // console.log("chat found")
+        console.log("chat found")
         User.find(User.findById(foundChat.members)).exec(function(error, users){
           if(error){
             console.log(error);
@@ -238,6 +240,14 @@ app.post("/chat/:id", function(req, res) {
                 content: req.body.msgerinput,
                 date: new Date()
             }
+
+			console.log("message info sent")
+			io.emit('sendCurrentUser', users[0]);
+			io.emit('message', messageData);
+
+
+
+
             //io.emit('ismessage', messageData);
             //var newMessage = new Message(messageData)
             db.collection("chats").updateOne(foundChat, {$push: {"messages": messageData}}, function(error) {
@@ -331,7 +341,7 @@ app.post('/register', function (req, res, next) {
 
 io.on('connection', socket => {
   console.log("new user pls")
-  socket.emit('message', 'Hello World')
+  // socket.emit('message', 'Hello World')
 })
 
 

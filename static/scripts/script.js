@@ -1,16 +1,54 @@
-const socket = io('http://localhost:3000');
+// const socket = io('http://localhost:3000');
 
 
-// $("msger-inputarea").submit(function(e){
-//   e.preventDefault();
+$("msger-inputarea").submit(function(e){
+  e.preventDefault();
+});
+
+socket.on('sendCurrentUser', addNewUser);
+
+// var currentUser = 'Me';
+// socket.on('message', addMessages)
+// // socket.on('new_usr', addNewUser)
+// socket.on('sendCurrentUser', addNewUser);
+
+// socket.on('sendCurrentUser', function(data) {
+//     currentUser = data.text;
+//     console.log(data.text);
 // });
 
-const currentUser = 'Me';
+function addNewUser(new_usr) {
+	console.log("da be")
+	currentUser = new_usr;
+	console.log(currentUser)
+}
 
-socket.on('sendCurrentUser', function(data) {
-    //currentUser = data.text;
-    console.log(data.text);
-});
+// function addMessages(message) {
+// 	console.log("da be 2")
+// 	console.log(currentUser);
+// 	console.log(message);
+// 	var side = 'right';
+// 	if (message.sender_id == currentUser.id) side = 'left';
+// 	// $("#messages").append(
+// 	const messageHTML =
+// 		`
+// 		<div class="msg ${side}-msg">
+// 			<div class="msg-img" style="background-image: url(https://image.flaticon.com/icons/svg/145/145867.svg)"></div>
+// 				<div class="msg-bubble">
+// 					<div class="msg-info">
+// 						<div class="msg-info-time"> ${formatDate(message.date)} </div>
+// 					</div>
+// 					<div class="msg-text"> ${message.content} </div>
+// 				</div>
+// 			</div>
+// 		</div>
+// 		`
+//
+// 		msgerChat.insertAdjacentHTML("beforeend", msgHTML);
+// 		msgerChat.scrollTop += 500;
+// }
+
+
 // const Message = get('./static/models/message.js');
 const msgerForm = get(".msger-inputarea");
 const msgerInput = get(".msger-input");
@@ -28,7 +66,7 @@ const BOT_MSGS = [
 const BOT_IMG = "https://image.flaticon.com/icons/svg/145/145867.svg";
 const PERSON_IMG = "https://image.flaticon.com/icons/svg/145/145867.svg";
 const BOT_NAME = "Name";
-const PERSON_NAME = currentUser;
+// const PERSON_NAME = currentUser.username;
 
 msgerForm.addEventListener("submit", event => {
 event.preventDefault();
@@ -36,19 +74,19 @@ event.preventDefault();
 const msgText = msgerInput.value;
 if (!msgText) return;
 
-addMessageToBD(msgText);
+// addMessageToBD(msgText);
 
-socket.on('ismessage', data => {
-  console.log(data)
-});
+// socket.on('ismessage', data => {
+//   console.log(data)
+// });
 
-appendMessage(PERSON_NAME, PERSON_IMG, "right", msgText);
+appendMessage(PERSON_IMG, "right", msgText);
 msgerInput.value = "";
 
 botResponse();
 });
 
-function appendMessage(name, img, side, text) {
+function appendMessage(img, side, text) {
 //   Simple solution for small apps
 const msgHTML =
 `<div class="msg ${side}-msg">
@@ -56,7 +94,6 @@ const msgHTML =
 
     <div class="msg-bubble">
       <div class="msg-info">
-        <div class="msg-info-name">${name}</div>
         <div class="msg-info-time">${formatDate(new Date())}</div>
       </div>
 

@@ -16,8 +16,14 @@ var FileSchema = new mongoose.Schema({
   fileType: {
 	  type: String
   }
-  
+
 });
+
+FileSchema.virtual('filePath').get(function() {
+ if(this.file != null && this.fileType != null) {
+    return `data:${this.fileType}; charset=utf-8; base64, ${this.file.toString('base64')}`
+  }
+})
 
 //var Message = mongoose.model('Message', MessageSchema);
 //module.exports = Message;

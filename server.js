@@ -228,6 +228,10 @@ app.get("/chat/:id", function(req, res) {
   })
 })
 
+// app.get("/chat/:id/picture", function(req, res) {
+//
+// }
+
 app.post("/chat/:id", function(req, res) {
   Chat.findById(req.params.id).exec(function(err, foundChat){
     if(err){
@@ -256,7 +260,7 @@ app.post("/chat/:id", function(req, res) {
               }
             })
           }
-		  else if (req.body.fileinput != null ) {
+		  else if (req.body.fileinput != null) {
 			var file1 = JSON.parse(req.body.fileinput);
 			if (file1 != null) { //mime type check omitted
 				var fileData = {
@@ -268,7 +272,7 @@ app.post("/chat/:id", function(req, res) {
 
 				console.log("file info sent")
 				io.emit('sendCurrentUser', users[0]);
-				io.emit('message', fileData);
+				io.emit('file', fileData);
 
 				db.collection("chats").updateOne(foundChat, {$push: {"files": fileData}}, function(error) {
 	              if(error){

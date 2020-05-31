@@ -24,6 +24,9 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const fs = require('fs');
 
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+
 //connect to MongoDB
 mongoose.connect(uri, {
   useCreateIndex : true,
@@ -133,7 +136,8 @@ app.get('/chat', (req, res, next) => {
                 else {
                   var chatData = {
                     members: [user1.id, user2.id],
-                    messages: [null]
+                    messages: [null],
+					files: [null]
                   }
 
                   Chat.create(chatData, function (error, chat) {
@@ -143,6 +147,7 @@ app.get('/chat', (req, res, next) => {
                       db.collection("users").updateOne( user1, {$push: {previousChats: chat.id}});
                       db.collection("users").updateOne( user2, {$push: {previousChats: chat.id}});
                       db.collection("chats").updateMany( {}, {$pull: {messages: null}}, {multi:true});
+					  db.collection("chats").updateMany( {}, {$pull: {files: null}}, {multi:true});
                       res.redirect(`/chat/${chat.id}`);
                     }
                   })
@@ -245,18 +250,34 @@ app.post("/chat/:id", function(req, res) {
 			io.emit('sendCurrentUser', users[0]);
 			io.emit('message', messageData);
 
-
-
-
-            //io.emit('ismessage', messageData);
-            //var newMessage = new Message(messageData)
             db.collection("chats").updateOne(foundChat, {$push: {"messages": messageData}}, function(error) {
               if(error){
                 console.log(error);
               }
             })
           }
-          else if (req.body.msgerinput == '') {
+		  else if (req.body.fileinput != null ) {
+			var file1 = JSON.parse(req.body.fileinput);
+			if (file1 != null) { //mime type check omitted
+				var fileData = {
+	                sender_id: req.session.userId,
+	                date: new Date(),
+					file: new Buffer.from(file1.data, 'base64'),
+					fileType: file1.type
+	            }
+
+				console.log("file info sent")
+				io.emit('sendCurrentUser', users[0]);
+				io.emit('message', fileData);
+
+				db.collection("chats").updateOne(foundChat, {$push: {"files": fileData}}, function(error) {
+	              if(error){
+	                console.log(error);
+	              }
+	            })
+			}
+		  }
+          else if (req.body.msgerinput == '' && req.body.fileinput == null) {
             var err = new Error('You need to enter text to the message.');
             err.status = 400;
             return next(err);

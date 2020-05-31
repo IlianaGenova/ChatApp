@@ -1,18 +1,10 @@
 var mongoose = require('mongoose');
 
-var MessageSchema = new mongoose.Schema({
-  // chat_id: {
-  //   type: String,
-  //   required: true,
-  //   trim: true
-  // },
+var FileSchema = new mongoose.Schema({
+
   sender_id: {
     type: String,
     required: true,
-    trim: true
-  },
-  content: {
-    type: String,
     trim: true
   },
   date: {
@@ -24,7 +16,7 @@ var MessageSchema = new mongoose.Schema({
   fileType: {
 	  type: String
   }
-  //add Date and Status features - when we have the time to integrate them
+  
 });
 
 //var Message = mongoose.model('Message', MessageSchema);

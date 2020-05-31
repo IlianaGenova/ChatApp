@@ -131,16 +131,34 @@ body {
 
 .msger-inputarea {
   display: flex;
+  flex-direction: column;
   padding: 10px;
   border-top: var(--border);
   background: #eee;
 }
-.msger-inputarea * {
+
+.msger-input, .msger-send-btn {
   padding: 10px;
   border: none;
   border-radius: 3px;
   font-size: 1em;
 }
+
+.container {
+	display: flex;
+}
+
+.msger-input {
+	flex-grow: 1;
+}
+
+.file-inputarea button {
+  padding: 10px;
+  border: none;
+  border-radius: 3px;
+  font-size: 1em;
+}
+
 .msger-input {
   flex: 1;
   background: #ddd;

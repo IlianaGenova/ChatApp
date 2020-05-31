@@ -5,7 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ChatApp</title>
     <link rel='stylesheet' type='text/css' href='/styles/chatstyle.css' />
-
+	//filepond
+	<link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
+	<link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet">
+	<script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+	<script defer src="https://unpkg.com/filepond-plugin-file-encode/dist/filepond-plugin-file-encode.js"></script>
+	<script defer src="https://unpkg.com/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.js"></script>
+	<script defer src="https://unpkg.com/filepond/dist/filepond.js"></script>
+	<script defer src="/scripts/fileUpload.js"></script>
 </head>
 <body>
   <div class="split left">
@@ -120,10 +127,20 @@
 
 
 
-        <form id='msger-inputarea' name="msgerinputarea" method="post" class="msger-inputarea" onsubmit="submitForm(event);">
-          <input type="text" name="msgerinput" class="msger-input" placeholder="Enter your message...">
-          <button type="submit" class="msger-send-btn">Send</button>
+        <!-- <form id='file-inputarea' name="fileinputarea" method="post" class="file-inputarea" onsubmit="submitForm(event);"> -->
+
+          <!-- <button type="submit" class="msger-send-btn">Send file</button> -->
+
+
+		<form id='msger-inputarea' name="msgerinputarea" method="post" class="msger-inputarea" onsubmit="submitForm(event);">
+          <input type="file" name="fileinput" class="file-inputarea filepond">
+		  <div class="container">
+		  	<input type="text" name="msgerinput" class="msger-input" placeholder="Enter your message...">
+          	<button type="submit" class="msger-send-btn">Send</button>
+		  </div>
         </form>
+		<!-- </form> -->
+
       </section>
   </div>
 
@@ -141,6 +158,7 @@
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script defer type="text/javascript" src="/scripts/chat.js"></script>
     <script defer type="text/javascript" src='/scripts/script.js'></script>
+
 
 	<script type="text/javascript">
 		const socket = io('http://localhost:3000');

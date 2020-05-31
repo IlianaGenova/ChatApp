@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Message = require('./message.js');
+var File = require('./file.js');
 
 var ChatSchema = new mongoose.Schema({
     members: {
@@ -10,7 +11,11 @@ var ChatSchema = new mongoose.Schema({
     messages: {
       type: [Message],
       default: null
-    }
+  },
+  files: {
+	  type: [File],
+	  default: null
+  }
   });
 
 var Chat = mongoose.model('Chat', ChatSchema);

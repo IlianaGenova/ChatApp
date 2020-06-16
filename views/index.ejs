@@ -26,6 +26,45 @@
     </div>
     </button>
   </form>
+  <% var flag = 0 %>
+  <% if (user.previousChats) { %>
+    <% for(var j = 0; j < user.previousChats.length; j++) { %>
+      <% for(var i = 0; i < allChats.length; i++) { %>
+        <% if(allChats[i].id == user.previousChats[j]) { %>
+          <% for(var k = 0; k < allUsers.length; k++) { %>
+            <% if(user.id == allChats[i].members[1]) { %>
+              <% if(allUsers[k].id == allChats[i].members[0]) { %> <!-- a very stupid fix to a very stupid problem its not efficient at all. Too bad-->
+
+                <form action="/chat/<%= user.previousChats[j] %>" method="get" class="prev-chats" onsubmit="submitForm(event);">
+                  <button type="submit" class="nav-btn users-btn" >
+                    <h3 class="chat-name"> <%= allUsers[k].username %> </h3>
+                  </button>
+                </form>
+                <% flag = 1 %>
+                <% break %>
+              <% } %>
+            <% } %>
+            <% if(user.id != allChats[i].members[1]) { %>
+              <% if(allUsers[k].id == allChats[i].members[1]) { %>
+
+                <form action="/chat/<%= user.previousChats[j] %>" method="get" class="prev-chats" onsubmit="submitForm(event);">
+                  <button type="submit" class="nav-btn users-btn" >
+                    <h3 class="chat-name"> <%= allUsers[k].username %> </h3>
+                  </button>
+                </form>
+                <% flag = 1 %>
+                <% break %>
+              <% } %>
+            <% } %>
+          <% } %>
+        <% } %>
+      <% if(flag) { flag = 0; break; }} %>
+    <% i = 0; } %>
+  <% } %>
+  <% if (user.previousChats == null) { %>
+    <h2 class="alert"> You have not talked to other unicorns yet.</h2>
+    <h3 class="alert"> It is time to start a new chat!</h2>
+  <% } %>
 
 <script type="text/javascript">
   var form = document.getElementById('search')

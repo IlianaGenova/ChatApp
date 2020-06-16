@@ -88,9 +88,25 @@ app.get('/', (req, res) => {
             return res.redirect('/register');
         }
     }
-    res.render('index');
+    Chat.find().exec(function (error, allChats){
+      if(error){
+        console.log(error);
+      }
+      else{
+        User.find().exec(function (error, allUsers){
+          if(error){
+            console.log(error);
+          }
+          else{
+            res.render("index", {user: user, allChats: allChats, allUsers: allUsers});
+          }
+        });
+      }
+    });
+  });
 });
-});
+
+
 app.get('/login', (req, res) => {
   res.render('login');
 });
@@ -424,7 +440,7 @@ app.post('/unblock', function (req, res){
             console.log(error);
           }
           else {
-            res.redirect('/profile');
+            res.redirect('/blocked');
           }
         });
       });

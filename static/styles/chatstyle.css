@@ -93,6 +93,10 @@ body {
   background-size: cover;
   border-radius: 50%;
 }
+.msg-img img {
+	max-width: 300px;
+	object-fit: contain;
+}
 .msg-bubble {
   max-width: 450px;
   padding: 15px;

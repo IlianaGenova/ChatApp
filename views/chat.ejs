@@ -207,14 +207,18 @@
 			var side = 'left';
 			if (file1.sender_id == currentUser.id) side = 'right';
 
-			console.log(file1)
+			// console.log(file1)
+
 
 			if(file1.file != null && file1.fileType != null) {
+				const filepath = "data:"+ file1.fileType + ";base64," + file1.file;
+
+				console.log(file1);
 				const msgHTML =
 					`
 					<div class="msg ${side}-msg">
 						<div class="msg-img" style="background-image: url(https://image.flaticon.com/icons/svg/145/145867.svg)"></div>
-							<img src="${file1.filePath}" alt="nothing here">
+							<img src="${filepath}" alt="nothing here">
 						</div>
 					</div>
 					`

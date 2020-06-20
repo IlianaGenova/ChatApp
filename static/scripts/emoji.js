@@ -1,18 +1,24 @@
-EmojiButton = require('@joeattardi/emoji-button');
+// var EmojiButton = require('@joeattardi/emoji-button');
+// import EmojiButton from '@joeattardi/emoji-button'
 
-window.addEventListener('DOMContentLoaded', () => {
-  const button = document.getElementById(emoji);
-  const picker = new EmojiButton({
-    theme: 'auto',
-    position: 'bottom-end'
-  });
+// window.addEventListener('DOMContentLoaded', () => {
+//   // button.addEventListener('click', () => {
+//   //   console.log("hacker");
+// 	// event.stopPropagation();
+//   //   picker.togglePicker(button);
+//   // });
+// });
 
-  picker.on('emoji', emoji => {
-    document.getElementById(input).value += emoji;
-  });
+const button = document.getElementById("emoji");
+const picker = new EmojiButton({
+  theme: 'auto',
+  position: 'bottom-end'
+});
 
-  button.addEventListener('click', () => {
-    console.log("hacker");
-    picker.togglePicker(button);
-  });
-});  
+picker.on('emoji', emoji => {
+  document.getElementById("input").value += emoji;
+});
+
+function Emoji() {
+	picker.togglePicker(event.target)
+}

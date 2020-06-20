@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ChatApp</title>
     <link rel='stylesheet' type='text/css' href='/styles/chatstyle.css' />
+    <!-- //emoji
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../static/styles/emoji.css" rel="stylesheet"> -->
 	//filepond
 	<link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
 	<link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet">
@@ -129,21 +132,23 @@
 		<form id='msger-inputarea' name="msgerinputarea" method="post" class="msger-inputarea" onsubmit="submitForm(event);">
           <input type="file" name="fileinput" class="file-inputarea filepond">
 		  <div class="container">
-		  	<input type="text" name="msgerinput" class="msger-input" placeholder="Enter your message...">
-          	<button type="submit" class="msger-send-btn">Send</button>
+		  	<input id="input" type="text" name="msgerinput" class="msger-input" placeholder="Enter your message...">
+            <button type="submit" class="msger-send-btn">Send</button>
+            <button class="msger-send-btn" id="emoji" onclick="Emoji()">Emojis</button>
 		  </div>
         </form>
 		<!-- </form> -->
       </section>
   </div>
 
-    <script type="text/javascript">
+  <script type="text/javascript">
         function submitForm(event) {
           event.preventDefault();
           event.target.submit();
         }
-	</script>
+  </script>
 
+  <script type="text/javascript" src="/scripts/emoji.js"></script>
 
 	<!-- <script src="/socket.io/socket.io.js"></script> -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>

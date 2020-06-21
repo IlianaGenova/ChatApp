@@ -93,7 +93,7 @@ body {
   background-size: cover;
   border-radius: 50%;
 }
-.msg-img img {
+.msg img {
 	max-width: 300px;
 	object-fit: contain;
 }
@@ -133,6 +133,10 @@ body {
   margin: 0 0 0 10px;
 }
 
+.msg-text {
+	word-break: break-all;
+}
+
 .msger-inputarea {
   display: flex;
   flex-direction: column;
@@ -146,6 +150,7 @@ body {
   border: none;
   border-radius: 3px;
   font-size: 1em;
+  margin-bottom: 10px;
 }
 
 .container {
@@ -154,6 +159,7 @@ body {
 
 .msger-input {
 	flex-grow: 1;
+
 }
 
 .file-inputarea button {

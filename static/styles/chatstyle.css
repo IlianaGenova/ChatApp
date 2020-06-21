@@ -323,3 +323,7 @@ body {
   max-height: 100%;
   height: 70px;
 }
+
+.unselected {
+	background-color: var(--onclick-color);
+}

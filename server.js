@@ -310,6 +310,17 @@ app.post("/chat/:id", function(req, res) {
   });
 });
 
+app.post("/chat/:id/confirm", function(req, res) {
+	Chat.findById(req.params.id).exec(function(err, foundChat){
+		if(err){
+	    	console.log(err);
+	    } else {
+				db.collection("chats").updateOne(foundChat, {$set: {confirmation: true}});
+				res.redirect(`/chat/${foundChat.id}`);
+		}
+	})
+})
+
 app.post('/block/:id', function (req, res){
   Chat.findById(req.params.id).exec(function(err, foundChat){
     if(err){

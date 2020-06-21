@@ -15,7 +15,16 @@ var ChatSchema = new mongoose.Schema({
   files: {
 	  type: [File],
 	  default: null
+  },
+  confirmation: {
+	  type: Boolean,
+	  default: false
   }
+  // ,
+  // confirmationSender: {
+	//   type: String,
+	//   default: null
+  // }
   });
 
 var Chat = mongoose.model('Chat', ChatSchema);

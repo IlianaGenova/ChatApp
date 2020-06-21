@@ -131,6 +131,7 @@
 				<button type="submit" class="msger-send-btn" name="button">This user has sent you a request. Click here to start the chat</button>
 			</form>
 		  <% } %>
+
           <% if(chat.confirmation == true && chat.messages != null) { %>
             <% for(var i=0; i < chat.messages.length; i++) { %>
               <% if(chat.messages[i].content != null) { %>
@@ -151,6 +152,24 @@
                     <div class="msg-text"> <%= chat.messages[i].content %> </div>
                   </div>
                 </div>
+              <% } %>
+            <% } %>
+          <% } %>
+
+		  <% if(chat.confirmation == true && chat.files != null) { %>
+            <% for(var i=0; i < chat.files.length; i++) { %>
+              <% if(chat.files[i].file != null) { %>
+                <% if(chat.files[i].sender_id == user.id) { %>
+                  <div class="msg right-msg">
+                <% } %>
+                <% if(chat.files[i].sender_id != user.id) { %>
+                    <div class="msg left-msg">
+                <% } %>
+				<% if(chat.files[i].fileType != null) { %>
+						<div class="msg-img" style="background-image: url(https://image.flaticon.com/icons/svg/145/145867.svg)"></div>
+							<img src="<%= "data:"+ chat.files[i].fileType + ";base64," + chat.files[i].file %>" alt="nothing here">
+					 </div>
+				<% } %>
               <% } %>
             <% } %>
           <% } %>
@@ -234,7 +253,7 @@
 
 		function addFile (file1) {
 			var side = 'left';
-			if (file1.sender_id == currentUser.id) side = 'right';
+			if (file1.sender_id != currentUser.id) side = 'right';
 
 			// console.log(file1)
 

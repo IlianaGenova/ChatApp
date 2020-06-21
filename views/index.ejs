@@ -46,12 +46,13 @@
             <% } %>
             <% if(user.id != allChats[i].members[1]) { %>
               <% if(allUsers[k].id == allChats[i].members[1]) { %>
-
+				<div class="listed">
                 <form action="/chat/<%= user.previousChats[j] %>" method="get" class="prev-chats" onsubmit="submitForm(event);">
                   <button type="submit" class="nav-btn users-btn" >
                     <h3 class="chat-name"> <%= allUsers[k].username %> </h3>
                   </button>
                 </form>
+				</div>
                 <% flag = 1 %>
                 <% break %>
               <% } %>

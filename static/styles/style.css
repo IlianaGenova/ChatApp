@@ -275,8 +275,8 @@ h1 {
 	display: flex;
 	flex-flow: column wrap;
 	align-items: center;
-	margin-bottom: 15px;
-	margin-top: 0;
+	margin-bottom: 10px;
+	margin-top: 10px;
 }
 
 .listed button {

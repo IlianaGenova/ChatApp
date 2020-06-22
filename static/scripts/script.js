@@ -80,32 +80,33 @@ if (!msgText) return;
 //   console.log(data)
 // });
 
-appendMessage(PERSON_IMG, "right", msgText);
-msgerInput.value = "";
+// 
+// appendMessage(PERSON_IMG, "right", msgText);
+// msgerInput.value = "";
 
 botResponse();
 });
-
-function appendMessage(img, side, text) {
-//   Simple solution for small apps
-const msgHTML =
-`<div class="msg ${side}-msg">
-    <div class="msg-img" style="background-image: url(${img})"></div>
-
-    <div class="msg-bubble">
-      <div class="msg-info">
-        <div class="msg-info-time">${formatDate(new Date())}</div>
-      </div>
-
-      <div class="msg-text">${text}</div>
-    </div>
-  </div>
-`;
-
-
-msgerChat.insertAdjacentHTML("beforeend", msgHTML);
-msgerChat.scrollTop += 500;
-}
+//
+// function appendMessage(img, side, text) {
+// //   Simple solution for small apps
+// const msgHTML =
+// `<div class="msg ${side}-msg">
+//     <div class="msg-img" style="background-image: url(${img})"></div>
+//
+//     <div class="msg-bubble">
+//       <div class="msg-info">
+//         <div class="msg-info-time">${formatDate(new Date())}</div>
+//       </div>
+//
+//       <div class="msg-text">${text}</div>
+//     </div>
+//   </div>
+// `;
+//
+//
+// msgerChat.insertAdjacentHTML("beforeend", msgHTML);
+// msgerChat.scrollTop += 500;
+// }
 
 function botResponse() {
 const r = random(0, BOT_MSGS.length - 1);

@@ -231,7 +231,7 @@
 			console.log(currentUser);
 			console.log(message);
 			var side = 'left';
-			if (message.sender_id == currentUser.id) side = 'right';
+			if (message.sender_id != currentUser.id) side = 'right';
 			// $("#messages").append(
 			const msgHTML =
 				`

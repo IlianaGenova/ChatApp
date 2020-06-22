@@ -216,7 +216,7 @@
 
 	<script type="text/javascript">
 		const socket = io('http://localhost:3000');
-		var currentUser;
+		var currentUser = "<%= user.id %>";
 
 		function formatDate(date) {
 		const h = "0" + date.getHours();
@@ -236,8 +236,12 @@
 			console.log(currentUser);
 			console.log(message);
 			var side = 'left';
-			if (message.sender_id != currentUser.id) side = 'right';
+			if (message.sender_id == currentUser) side = 'right';
 			// $("#messages").append(
+			console.log("important")
+			console.log(message.sender_id)
+			console.log(currentUser)
+
 			const msgHTML =
 				`
 				<div class="msg ${side}-msg">
@@ -258,9 +262,11 @@
 
 		function addFile (file1) {
 			var side = 'left';
-			if (file1.sender_id != currentUser.id) side = 'right';
+			if (file1.sender_id == currentUser.id) side = 'right';
 
-			// console.log(file1)
+			console.log("important")
+			console.log(file1.sender_id)
+			console.log(currentUser.id)
 
 
 			if(file1.file != null && file1.fileType != null) {

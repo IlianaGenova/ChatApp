@@ -164,7 +164,8 @@ app.get('/chat', (req, res, next) => {
                       db.collection("users").updateOne( user2, {$push: {previousChats: chat.id}});
                       db.collection("chats").updateMany( {}, {$pull: {messages: null}}, {multi:true});
 					  db.collection("chats").updateMany( {}, {$pull: {files: null}}, {multi:true});
-                      res.redirect(`/chat/${chat.id}`);
+
+					  res.redirect(`/chat/${chat.id}`);
                     }
                   })
 
@@ -217,6 +218,7 @@ app.get("/chat/:id", function(req, res) {
                             }
                             else {
                               res.render('chat', {guest: users[i], chat: foundChat, user: user1, allChats: allChats, allUsers: allUsers});
+							  
                             }
                           }
                         }
@@ -254,6 +256,7 @@ app.post("/chat/:id", function(req, res) {
         console.log(err);
     } else {
         console.log("chat found")
+
         User.find(User.findById(foundChat.members)).exec(function(error, users){
           if(error){
             console.log(error);
@@ -267,7 +270,7 @@ app.post("/chat/:id", function(req, res) {
             }
 
 			console.log("message info sent")
-			io.emit('sendCurrentUser', users[0]);
+			// io.emit('sendCurrentUser', req.session.userId);
 			io.emit('message', messageData);
 
             db.collection("chats").updateOne(foundChat, {$push: {"messages": messageData}}, function(error) {
@@ -290,7 +293,7 @@ app.post("/chat/:id", function(req, res) {
 
 				console.log("file info sent")
 				console.log(fileData)
-				io.emit('sendCurrentUser', users[0]);
+				// io.emit('sendCurrentUser', req.session.userId);
 				io.emit('file', fileData);
 
 				db.collection("chats").updateOne(foundChat, {$push: {"files": fileData}}, function(error) {

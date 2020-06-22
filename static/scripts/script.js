@@ -16,12 +16,12 @@ socket.on('sendCurrentUser', addNewUser);
 //     currentUser = data.text;
 //     console.log(data.text);
 // });
-
-function addNewUser(new_usr) {
-	console.log("da be")
-	currentUser = new_usr;
-	console.log(currentUser)
-}
+//
+// function addNewUser(new_usr) {
+// 	console.log("da be")
+// 	currentUser = new_usr;
+// 	console.log(currentUser)
+// }
 
 // function addMessages(message) {
 // 	console.log("da be 2")
@@ -80,7 +80,7 @@ if (!msgText) return;
 //   console.log(data)
 // });
 
-// 
+//
 // appendMessage(PERSON_IMG, "right", msgText);
 // msgerInput.value = "";
 

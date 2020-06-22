@@ -167,8 +167,13 @@
                 <% } %>
 				<% if(chat.files[i].fileType != null) { %>
 						<div class="msg-img" style="background-image: url(https://image.flaticon.com/icons/svg/145/145867.svg)"></div>
-							<img src="<%= "data:"+ chat.files[i].fileType + ";base64," + chat.files[i].file %>" alt="nothing here">
-					 </div>
+							<% if(chat.files[i].fileType == 'image/png' || chat.files[i].fileType == 'image/jpeg') { %>
+								<img src="<%= "data:"+ chat.files[i].fileType + ";base64," + chat.files[i].file %>" alt="nothing here">
+							<% } %>
+							<% if(chat.files[i].fileType != 'image/png' && chat.files[i].fileType != 'image/jpeg') { %>
+								<a href="<%= "data:"+ chat.files[i].fileType + ";base64," + chat.files[i].file %>" download> <%=chat.files[i].fileType%> </a>
+							<% } %>
+					 	</div>
 				<% } %>
               <% } %>
             <% } %>
@@ -260,19 +265,36 @@
 
 			if(file1.file != null && file1.fileType != null) {
 				const filepath = "data:"+ file1.fileType + ";base64," + file1.file;
-
+				const filetype = file1.fileType;
 				console.log(file1);
-				const msgHTML =
-					`
-					<div class="msg ${side}-msg">
-						<div class="msg-img" style="background-image: url(https://image.flaticon.com/icons/svg/145/145867.svg)"></div>
-							<img src="${filepath}" alt="nothing here">
+				if(file1.fileType == 'image/png' || file1.fileType == 'image/jpeg') {
+					const msgHTML =
+						`
+						<div class="msg ${side}-msg">
+							<div class="msg-img" style="background-image: url(https://image.flaticon.com/icons/svg/145/145867.svg)"></div>
+								<img src="${filepath}" alt="nothing here">
+							</div>
 						</div>
-					</div>
-					`
+						`
 
-					msgerChat.insertAdjacentHTML("beforeend", msgHTML);
-					msgerChat.scrollTop += 500;
+						msgerChat.insertAdjacentHTML("beforeend", msgHTML);
+						msgerChat.scrollTop += 500;
+				}
+				if(file1.fileType != 'image/png' && file1.fileType != 'image/jpeg') {
+					const msgHTML =
+						`
+						<div class="msg ${side}-msg">
+							<div class="msg-img" style="background-image: url(https://image.flaticon.com/icons/svg/145/145867.svg)"></div>
+								<a href="${filepath}" download>${filetype}</a>
+							</div>
+						</div>
+						`
+
+						msgerChat.insertAdjacentHTML("beforeend", msgHTML);
+						msgerChat.scrollTop += 500;
+				}
+
+
 			}
 		}
 

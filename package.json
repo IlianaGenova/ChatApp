@@ -4,7 +4,7 @@
   "description": "",
   "main": "main.js",
   "dependencies": {
-    "@joeattardi/emoji-button": "^3.1.1",
+    "@joeattardi/emoji-button": "^4.6.2",
     "bcrypt": "^4.0.1",
     "connect-mongo": "^3.2.0",
     "express-session": "^1.17.0",
